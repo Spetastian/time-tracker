@@ -1,0 +1,7 @@
+@import '../../../_global';
+
+.container {
+    @extend .bringToFront;
+    position: absolute;
+    max-width: 356;
+}

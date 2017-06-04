@@ -1,0 +1,25 @@
+@import "_global";
+
+body {
+  font-family: $font-stack;
+  color: $main-font-color;
+  margin: 0;
+}
+
+.mainWrapper {
+  min-height: 800px;
+  margin: $main-content-margin 0 0 0;
+}
+
+.mainWrapper > article {
+  @extend .standardPadding;
+}
+
+.mainWrapper > nav {
+  @extend .depth1;
+}
+
+.mainWrapper > aside {
+  @extend .depth1;
+  margin: 4px;
+}

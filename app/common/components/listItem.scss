@@ -1,0 +1,6 @@
+@import '../../_global';
+
+.itemContainer{
+    @extend .depth1, .standardPadding;
+    width:100%;
+}

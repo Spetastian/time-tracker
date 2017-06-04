@@ -1,0 +1,21 @@
+@import "../../_global";
+
+.navigation {
+  min-width: 160px;
+  padding: 0;
+}
+
+.navigation a {
+  @extend .navigationAnchor;
+  border-bottom: 1px solid lightgrey;
+  padding: 15px 0 15px 20px;
+}
+
+.navigation li {
+  @extend .navigationAnchor;
+  list-style: none;
+}
+
+.navigation li .active {
+  background-color: whitesmoke;
+}
