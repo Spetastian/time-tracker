@@ -15,6 +15,7 @@ class TimeCardService {
 	}
 	
 	addEntry({ weekNumber, projectId }) {
+		console.log({ weekNumber, projectId })
 		return ajax.post(`${this.authUrl}/timecard/${weekNumber}/add`, { projectId }, { 'Content-Type': 'application/json' })
 	}
 	

@@ -11,8 +11,8 @@ export const fetchTimeCardSuccess = entries =>
 export const ADD_NEW_ENTRY_REQUEST = 'ADD_NEW_ENTRY_REQUEST'
 export const ADD_NEW_ENTRY_SUCCESS = 'ADD_NEW_ENTRY_SUCCESS'
 
-export const addNewEntryRequest = ({ weekNumber }) =>
-    ({ type: ADD_NEW_ENTRY_REQUEST, weekNumber })
+export const addNewEntryRequest = ({ weekNumber, projectId }) =>
+    ({ type: ADD_NEW_ENTRY_REQUEST, weekNumber, projectId })
 
 export const addNewEntrySuccess = entries =>
     ({ type: ADD_NEW_ENTRY_SUCCESS, entries })

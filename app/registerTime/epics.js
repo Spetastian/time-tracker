@@ -36,7 +36,6 @@ const addNewEntryEpic = action$ =>
 				projectId: action.projectId,
 				weekNumber: action.weekNumber
 			})
-			.do(console.log)
 			.map(ajaxResponse => addNewEntrySuccess(ajaxResponse.response))
 			.catch(handleAjaxError)
 		)

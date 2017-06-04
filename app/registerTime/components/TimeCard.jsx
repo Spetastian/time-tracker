@@ -1,17 +1,26 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import Paper from 'material-ui/Paper'
 import WeekEntry from './WeekEntry'
 import WeekSelector from './WeekSelector'
+import ProjectSelector from './ProjectSelector'
+import styles from './timeCard.scss'
+
 
 class TimeCard extends Component {
- 
-	handleOnNewEntryButtonClicked = () => {
-		this.props.onNewEntryAdded()
+
+	handleOnProjectSelected = (projectId) => {
+		this.props.onNewEntryAdded(projectId)
 	}
 
 	renderEntries() {
-		return this.props.entries.map(entry => <WeekEntry key={entry.id} />)
+		return this.props.entries.map(entry =>
+			<WeekEntry
+  key={entry.id}
+  projectId={entry.projectId}
+			/>
+		)
 	}
 
 	render() {
@@ -26,11 +35,7 @@ class TimeCard extends Component {
 					<ToolbarGroup>
 						<ToolbarTitle text="Actions" />
 						<ToolbarSeparator />
-						<RaisedButton
-  onClick={this.handleOnNewEntryButtonClicked}
-  label="+ New Entry"
-  primary
-						/>
+						<ProjectSelector onProjectSelected={this.handleOnProjectSelected} />
 					</ToolbarGroup>
 				</Toolbar>
 				{this.renderEntries()}

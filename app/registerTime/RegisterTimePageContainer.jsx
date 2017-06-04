@@ -23,9 +23,9 @@ class RegisterTimePageContainer extends Component {
 		this.props.loadTimeCard({ weekNumber: this.state.selectedWeek })
 	}
 
-	handleOnNewEntryAdded = () => {
+	handleOnNewEntryAdded = (projectId) => {
 		this.props.addNewEntry({
-			projectId: '123',
+			projectId,
 			weekNumber: this.state.selectedWeek
 		})
 	}
@@ -62,8 +62,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		loadTimeCard: ({ weekNumber }) =>
 			dispatch(fetchTimeCardRequest({ weekNumber })),
-		addNewEntry: ({ weekNumber }) =>
-			dispatch(addNewEntryRequest({ weekNumber }))
+		addNewEntry: ({ weekNumber, projectId }) =>
+			dispatch(addNewEntryRequest({ weekNumber, projectId }))
 	}
 }
 
