@@ -47,6 +47,7 @@
     "history": "^4.6.1",
     "html-loader": "^0.4.4",
 		"js-cookie": "^2.1.4",
+    "node-sass": "^4.2.0",
 		"react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.1",
     "react-quill": "^1.0.0-rc.2",
@@ -69,7 +70,6 @@
   "devDependencies": {
     "jest": "^20.0.3",
     "nock": "^9.0.2",
-    "node-sass": "^4.2.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^2.4.5",
     "webpack-hot-middleware": "^2.15.0"
