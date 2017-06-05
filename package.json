@@ -1,6 +1,10 @@
 {
   "name": "time-tracker-poc",
   "version": "1.0.0",
+	  "engines": {
+    "node": "7",
+		"npm": "3"
+  },
   "description": "",
   "scripts": {
     "postinstall": "webpack",
