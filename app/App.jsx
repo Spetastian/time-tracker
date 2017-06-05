@@ -3,8 +3,10 @@ import { Switch } from 'react-router'
 import { Route } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
-import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
+import Avatar from 'material-ui/Avatar'
+import FlatButton from 'material-ui/FlatButton'
+import SocialPerson from 'material-ui/svg-icons/social/person'
+import { ProfileCardContainer } from './common/profile'
 import { RegisterTimePageContainer } from './registerTime'
 import { LoginPageContainer } from './login'
 
@@ -20,6 +22,10 @@ class App extends Component {
 		}
 	}
 
+	handleOnAvatarPressed = () => {
+		console.log('AVATAR!')
+	}
+
 	render = () => {
 		return (
 			<MuiThemeProvider>
@@ -28,6 +34,8 @@ class App extends Component {
 						<AppBar
   title="Time tracker POC"
   showMenuIconButton={false}
+  iconElementRight={<FlatButton label="Sign out" />}
+  onRightIconButtonTouchTap={this.handleOnAvatarPressed}
 						/>
 					</header>
 					<div className={styles.mainWrapper}>

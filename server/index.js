@@ -33,6 +33,7 @@ app.use(webpackHotMiddleware(compiler, {
 	log: console.log
 }))
 
+app.use(express.static('dist'))
 
 app.post('/signin', (req, res) => {
 

@@ -1,10 +1,10 @@
 $font-stack: proxima-nova, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 $header-height: 40px;
-$main-content-margin:$header-height+10;
+$main-content-margin:10px;
 $main-font-color:rgb(72, 72, 72);
 
 .bringToFront {
-  z-index: 10;
+  z-index: 1200;
 }
 
 .widePadding {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import Paper from 'material-ui/Paper'
 import WeekEntry from './WeekEntry'
 import WeekSelector from './WeekSelector'
 import ProjectSelector from './ProjectSelector'
@@ -26,16 +25,18 @@ class TimeCard extends Component {
 	render() {
 		return (
 			<div className={styles.container} >
-				<WeekSelector
+				<Toolbar>
+					<ToolbarGroup>
+						<WeekSelector
   weeksInYear={this.props.weeksInYear}
   selectedWeek={this.props.selectedWeek}
   onWeekSelected={this.props.onWeekChange}
-				/>
-				<Toolbar>
-					<ToolbarGroup>
-						<ToolbarTitle text="Actions" />
+						/>
 						<ToolbarSeparator />
 						<ProjectSelector onProjectSelected={this.handleOnProjectSelected} />
+					</ToolbarGroup>
+					<ToolbarGroup>
+						<RaisedButton label="Send weekly report" secondary />
 					</ToolbarGroup>
 				</Toolbar>
 				{this.renderEntries()}

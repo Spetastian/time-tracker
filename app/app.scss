@@ -23,3 +23,13 @@ body {
   @extend .depth1;
   margin: 4px;
 }
+
+.profileCardContainer {
+  @extend .bringToFront;
+	float: right;
+	position: relative;
+	width: 30%;
+	min-width: 300px;
+	max-width: 460px;
+	padding-right: 5px;
+}

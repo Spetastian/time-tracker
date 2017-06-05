@@ -3,6 +3,7 @@ import moment from 'moment'
 import FlatButton from 'material-ui/FlatButton'
 import styles from './weekSelector.scss'
 import WeekList from './WeekList'
+import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
 
 class WeekSelector extends Component {
 	constructor(props) {
@@ -41,6 +42,7 @@ class WeekSelector extends Component {
 				<FlatButton
   label={`Week ${selectedWeek}`}
   onTouchTap={this.handleOnWeekButtonPressed}
+  icon={<NavigationExpandMore />}
 				/>
 				<div style={weeksVisibleStyle}>
 					<WeekList
