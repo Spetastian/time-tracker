@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack",
+    "postinstall": "webpack",
     "dev": "node server/dev.server --open",
-    "prod": "node server/prod.server --open"
+    "start": "node server/prod.server"
   },
   "author": "Sebastian Lindström <sebastian.lindstrom@gmail.com>",
   "contributors": [
