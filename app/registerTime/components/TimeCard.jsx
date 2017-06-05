@@ -25,7 +25,7 @@ class TimeCard extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className={styles.container} >
 				<WeekSelector
   weeksInYear={this.props.weeksInYear}
   selectedWeek={this.props.selectedWeek}

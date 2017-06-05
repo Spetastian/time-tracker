@@ -8,6 +8,7 @@ import {
  } from '../common/auth'
 
 import LoginForm from './components/LoginForm'
+import styles from './loginPageContainer.scss'
 
 class RegisterTimePageContainer extends Component {
 
@@ -17,8 +18,8 @@ class RegisterTimePageContainer extends Component {
 
 	render() {
 		return (
-			<div>
-				<LoginForm onLogin={this.handleOnLogin} />
+			<div className={styles.container}>
+				<LoginForm className={styles.loginForm} onLogin={this.handleOnLogin} />
 			</div>
 		)
 	}

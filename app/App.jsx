@@ -20,27 +20,16 @@ class App extends Component {
 		}
 	}
 
-	handleOnOpenDrawer = () => {
-		this.setState({
-			drawerOpen: !this.state.drawerOpen
-		})
-	}
-
 	render = () => {
 		return (
 			<MuiThemeProvider>
 				<div>
 					<header className={styles.header}>
 						<AppBar
-  title="Title"
-  iconClassNameLeft="muidocs-icon-navigation-expand-more"
-  onLeftIconButtonTouchTap={this.handleOnToggleDrawer}
+  title="Time tracker POC"
+  showMenuIconButton={false}
 						/>
 					</header>
-					<Drawer open={this.state.drawerOpen}>
-						<MenuItem>Menu Item</MenuItem>
-						<MenuItem>Menu Item 2</MenuItem>
-					</Drawer>
 					<div className={styles.mainWrapper}>
 						<article>
 							<Switch>

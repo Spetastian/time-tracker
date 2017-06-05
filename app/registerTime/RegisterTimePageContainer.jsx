@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { fetchTimeCardRequest, addNewEntryRequest } from './actions'
 import TimeCard from './components/TimeCard'
 import { AuthRequiredContainer } from '../common/auth'
+import styles from './registerTimePageContainer.scss'
 
 class RegisterTimePageContainer extends Component {
     
@@ -40,7 +41,7 @@ class RegisterTimePageContainer extends Component {
 	render() {
 		return (
 			<AuthRequiredContainer>
-				<div>
+				<div className={styles.container} >
 					<TimeCard
   entries={this.props.entries}
   weeksInYear={this.state.weeksInYear}
