@@ -5,12 +5,6 @@ const nJwt = require('njwt')
 const secureRandom = require('secure-random')
 const signingKey = secureRandom(256, { type: 'Buffer' })
 const path = require('path')
-
-const webpack = require('webpack')
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const webpackConfig = require('../webpack.config')
-const compiler = webpack(webpackConfig)
 const app = express()
 
 const {
@@ -113,6 +107,6 @@ app.post('/timecard/:weekNumber/save', (req, res) => {
 })
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
 	console.log('Server running...')
 })
