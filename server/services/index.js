@@ -1,0 +1,6 @@
+module.exports.AuthService = require('./AuthService')
+module.exports.ProjectService = require('./ProjectService')
+module.exports.ReportService = require('./ReportService')
+module.exports.TimeCardService = require('./TimeCardService')
+module.exports.ProfileService = require('./ProfileService')
+module.exports.UserService = require('./UserService')

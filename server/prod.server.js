@@ -1,112 +1,73 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const nJwt = require('njwt')
-const secureRandom = require('secure-random')
-const signingKey = secureRandom(256, { type: 'Buffer' })
-const path = require('path')
-const app = express()
+const Koa = require('koa')
+const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
+const serveStatic = require('koa-static')
 
+const app = new Koa()
+const { Database } = require('./db')
 const {
-	authenticateUser,
-	getTimeCard,
-	addEntryToTimeCard,
-	saveTimeCard
-} = require('./database')
+	AuthService,
+	ProfileService,
+	ReportService,
+	TimeCardService,
+	ProjectService,
+	UserService
+} = require('./services')
 
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.set('etag', false)
+const port = process.env.PORT || 3000
+const mongoDbUri = process.env.MONGODB_URI || 'ds062919.mlab.com:62919/timetracker'
+const mongoDbUser = process.env.MONGODB_USER || 'timetracker'
+const mongoDbPass = process.env.MONGODB_PASS || 'TimeTracker123'
+const db = new Database({ mongoDbUri, mongoDbUser, mongoDbPass })
 
-app.use(express.static('dist'))
+const authService = new AuthService({ db, prefix: 'auth' })
+const profileService = new ProfileService({ db, prefix: 'profiles' })
+const reportService = new ReportService({ db, prefix: 'reports' })
+const timeCardService = new TimeCardService({ db, prefix: 'timecards' })
+const projectService = new ProjectService({ db, prefix: 'projects' })
+const userService = new UserService({ db, prefix: 'users' })
 
-app.use('/res', express.static('dist'))
+const router = new Router()
 
-app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'dist/index.html'))
-})
+router.get('/', serveStatic('./dist'))
 
-app.post('/signin', (req, res) => {
+authService.setupRoutes(router)
+userService.setupRoutes(router)
+profileService.setupRoutes(router)
+reportService.setupRoutes(router)
+timeCardService.setupRoutes(router)
+projectService.setupRoutes(router)
 
-	const { username, password } = req.body
-
-	console.log({ username, password })
-	
-	try {
-		authenticateUser({ username, password })
-
-		const claims = {
-			iss: 'http://localhost:3000',  // The URL of your service
-			sub: username,    // The UID of the user in your system
-			scope: 'self'
+app
+	.use(async (ctx, next) => {
+		try {
+			await next()
 		}
-
-		const jwt = nJwt.create(claims, signingKey)
-		jwt.setExpiration(new Date().getTime() + 60 * 60 * 1000) // One hour from now
-
-		res.status(200).send({ status: 'success', token: jwt.compact() })
-	}
-	catch (err) {
-		console.error(err)
-		res.status(401).send('Authentication failed')
-	}
-})
-
-app.use((req, res, next) => {
-	const token = req.cookies && req.cookies.token
-	nJwt.verify(token, signingKey, function (err, verifiedJwt) {
-		if (err) {
+		catch (err) {
 			console.error(err)
-			res.status(403).send('Authentication failed')
-		}
-		else {
-			const substitute =  verifiedJwt.body.sub
-			req.user = {
-				username: substitute
-			}
-			next()
+			ctx.body = err
 		}
 	})
-})
+	.use(bodyParser())
+	.use(async (ctx, next) => {
+		if (!ctx.accepts('json'))
+			ctx.throw(406, 'Only accepts json content')
 
-app.get('/authenticate', (req, res) => {
-	res.status(200).send('OK')
-})
-
-app.get('/timecard/:weekNumber', (req, res) => {
-	const { weekNumber } = req.params
-	const timeCard = getTimeCard({ username: req.user.username, weekNumber })
-	res.status(200).send(timeCard)
-})
-
-app.post('/timecard/:weekNumber/add', (req, res) => {
-	const { projectId } = req.body
-	const { weekNumber } = req.params
-
-	const entries = addEntryToTimeCard({
-		username: req.user.username,
-		weekNumber,
-		projectId
+		await next()
+	})
+	.use(router.routes())
+	.use(router.allowedMethods())
+	.on('error', (err, ctx) => {
+		console.error('server error', err)
+		ctx.body = 'oops error'
 	})
 
-	res.status(200).send(entries)
-})
 
-app.post('/timecard/:weekNumber/save', (req, res) => {
-	
-	const { entries } = req.body
-	const { weekNumber } = req.params
-
-	const timeCard = saveTimeCard({
-		username: req.user.username,
-		weekNumber,
-		entries
-	})
-
-	res.status(200).send(timeCard)
+db
+.connect()
+.then(() => {
+	console.info('MongoDB connected')
+	app.listen(port)
 })
 
 
-app.listen(process.env.PORT || 3000, () => {
-	console.log('Server running...')
-})

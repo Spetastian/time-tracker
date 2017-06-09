@@ -1,0 +1,12 @@
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 10px;
+}
+
+.item {
+	padding: 10px;
+	margin-right: 2%;
+	margin-bottom: 2%;
+	flex: 0 0 48%
+}

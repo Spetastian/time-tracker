@@ -1,10 +1,12 @@
 import { combineEpics } from 'redux-observable'
-import { profileEpics } from './profile'
 import { registerTimeEpics } from './registerTime'
 import { authEpics } from './common/auth'
+import { usersEpics } from './users'
+import { projectsEpics } from './projects'
 
 export default combineEpics(
-    profileEpics,
     registerTimeEpics,
-    authEpics
+    authEpics,
+		usersEpics,
+		projectsEpics
 )

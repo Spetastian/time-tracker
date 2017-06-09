@@ -16,8 +16,8 @@ class TimeCard extends Component {
 	renderEntries() {
 		return this.props.entries.map(entry =>
 			<WeekEntry
-  key={entry.id}
-  projectId={entry.projectId}
+				key={entry.id}
+				projectId={entry.projectId}
 			/>
 		)
 	}
@@ -28,9 +28,9 @@ class TimeCard extends Component {
 				<Toolbar>
 					<ToolbarGroup>
 						<WeekSelector
-  weeksInYear={this.props.weeksInYear}
-  selectedWeek={this.props.selectedWeek}
-  onWeekSelected={this.props.onWeekChange}
+							weeksInYear={this.props.weeksInYear}
+							selectedWeek={this.props.selectedWeek}
+							onWeekSelected={this.props.onWeekChange}
 						/>
 						<ToolbarSeparator />
 						<ProjectSelector onProjectSelected={this.handleOnProjectSelected} />

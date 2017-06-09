@@ -21,10 +21,10 @@ injectTapEventPlugin()
 const store = configureStore()
 
 render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
+	<Provider store={store}>
+		<ConnectedRouter history={history}>
+			<App />
+		</ConnectedRouter>
+	</Provider>,
   document.getElementById('app')
 )
