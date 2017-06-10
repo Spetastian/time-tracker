@@ -5,6 +5,27 @@ const secureRandom = require('secure-random')
 const signingKey = secureRandom(256, { type: 'Buffer' })
 const url = 'http://localhost:3000' // Fix this.
 
+const roles = {
+	employee: 1,
+	manager: 2,
+	admin: 3
+}
+
+const accessLevels = {
+	reports: roles.employee,
+	timecards: roles.employee,
+	projects: roles.manager,
+	users: roles.manager
+}
+
+function hasAccess(area, role) {
+
+	if (!accessLevels[area])
+		return true
+	
+	return roles[role] >= accessLevels[area]
+}
+
 function createToken({ companyId, userId, role }) {
 	const claims = {
 		iss: url,  // The URL of your service
@@ -54,5 +75,6 @@ module.exports = {
 	verifyToken,
 	createToken,
 	hashPassword,
-	verifyPassword
+	verifyPassword,
+	hasAccess
 }

@@ -6,9 +6,9 @@ import 'rxjs/add/observable/of'
 export const handleAjaxError = (ajaxError) => {
 	console.error(ajaxError)
 	if (ajaxError.status === 403)
-		return Observable.of(replace('/login'))
-	else if (ajaxError.status === 401)
 		return Observable.of(replace('/'))
+	else if (ajaxError.status === 401)
+		return Observable.of(replace('/login'))
 
 	const { message, request: { url } } = ajaxError
 	return Observable.of(requestError({ message, url }))

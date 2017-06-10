@@ -19,6 +19,14 @@ class ProjectService extends BaseService {
 		return this.post('', { name })
 	}
 	
+	saveProject({ id, name }) {
+		return this.post('', { id, name })
+	}
+	
+	removeProject(id) {
+		return this.delete('', { id })
+	}
+	
 }
 
 export default ProjectService

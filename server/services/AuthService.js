@@ -11,7 +11,9 @@ class AuthService extends BaseService {
 			const user = await this.db.User
 				.findOne({ username })
 				.populate('_company _credentials')
-			if (!user) throw new Error('User was not found in the database')
+
+			if (!user)
+				throw new Error('User was not found in the database')
 			
 			await verifyPassword(password, user._credentials.password)
 

@@ -43,16 +43,22 @@ class BaseService {
 		return settings
 	}
 
+	getAjaxDeleteSettings(action, data) {
+		const settings = this.getAjaxSettings(action)
+		settings.method = 'DELETE'
+		settings.body = data
+		return settings
+	}
+	getAjaxGetSettings(action) {
+		const settings = this.getAjaxSettings(action)
+		settings.method = 'GET'
+		return settings
+	}
+
 	getAjaxPostSettings(action, data) {
 		const settings = this.getAjaxSettings(action)
 		settings.method = 'POST'
 		settings.body = data
-		return settings
-	}
-
-	getAjaxGetSettings(action) {
-		const settings = this.getAjaxSettings(action)
-		settings.method = 'GET'
 		return settings
 	}
 
@@ -72,13 +78,18 @@ class BaseService {
 		return Observable.throw(err)
 	}
 
+	get(action) {
+		return ajax(this.getAjaxGetSettings(action))
+			.catch(this.checkErrorFor401)
+	}
+
 	post(action, data) {
 		return ajax(this.getAjaxPostSettings(action, data))
 			.catch(this.checkErrorFor401)
 	}
 
-	get(action) {
-		return ajax(this.getAjaxGetSettings(action))
+	delete(action, data) {
+		return ajax(this.getAjaxDeleteSettings(action, data))
 			.catch(this.checkErrorFor401)
 	}
 }

@@ -16,3 +16,23 @@ export const createProjectRequest = name =>
 
 export const createProjectSuccess = projects =>
 	({ type: CREATE_PROJECT_SUCCESS, projects })
+
+
+export const REMOVE_PROJECT_REQUEST = 'REMOVE_PROJECT_REQUEST'
+export const REMOVE_PROJECT_SUCCESS = 'REMOVE_PROJECT_SUCCESS'
+
+export const removeProjectRequest = id =>
+	({ type: REMOVE_PROJECT_REQUEST, id })
+
+export const removeProjectSuccess = projects =>
+	({ type: REMOVE_PROJECT_SUCCESS, projects })
+
+
+export const UPDATE_PROJECT_REQUEST = 'UPDATE_PROJECT_REQUEST'
+export const UPDATE_PROJECT_SUCCESS = 'UPDATE_PROJECT_SUCCESS'
+
+export const updateProjectRequest = ({ id, name }) =>
+	({ type: UPDATE_PROJECT_REQUEST, id, name })
+
+export const updateProjectSuccess = projects =>
+	({ type: UPDATE_PROJECT_SUCCESS, projects })

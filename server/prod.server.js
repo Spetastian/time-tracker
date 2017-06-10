@@ -24,12 +24,12 @@ const mongoDbUser = process.env.MONGODB_USER || 'timetracker'
 const mongoDbPass = process.env.MONGODB_PASS || 'TimeTracker123'
 const db = new Database({ mongoDbUri, mongoDbUser, mongoDbPass })
 
-const authService = new AuthService({ db, prefix: 'auth' })
-const profileService = new ProfileService({ db, prefix: 'profiles' })
-const reportService = new ReportService({ db, prefix: 'reports' })
-const timeCardService = new TimeCardService({ db, prefix: 'timecards' })
-const projectService = new ProjectService({ db, prefix: 'projects' })
-const userService = new UserService({ db, prefix: 'users' })
+const authService = new AuthService({ db, area: 'auth' })
+const profileService = new ProfileService({ db, area: 'profiles' })
+const reportService = new ReportService({ db, area: 'reports' })
+const timeCardService = new TimeCardService({ db, area: 'timecards' })
+const projectService = new ProjectService({ db, area: 'projects' })
+const userService = new UserService({ db, area: 'users' })
 
 const authRequiredRouter = new Router()
 const publicRouter = new Router()
@@ -81,13 +81,17 @@ app
 	.use(async (ctx, next) => {
 		try {
 			const { token } = ctx.state
-			verifyToken(token)
-			await next()
+			const jwt = verifyToken(token)
+			const { companyId, sub, role } = jwt.data
+			ctx.state.companyId = companyId
+			ctx.state.userId = sub
+			ctx.state.userRole = role
 		}
 		catch (err) {
 			console.error(err)
 			ctx.throw(401, 'Authentication failed')
 		}
+		await next()
 	})
 	.use(authRequiredRouter.routes())
 	.use(authRequiredRouter.allowedMethods())

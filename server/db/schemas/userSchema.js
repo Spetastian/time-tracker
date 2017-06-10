@@ -8,5 +8,6 @@ module.exports = new Schema({
 	email: String,
 	firstname: String,
 	lastname: String,
-	role: String
+	role: String,
+	removed: { type: Boolean, default: false }
 })
