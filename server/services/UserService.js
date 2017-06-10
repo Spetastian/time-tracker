@@ -1,27 +1,57 @@
 const BaseService = require('./BaseService')
+const { hashPassword } = require('../utils/security')
 
-class UserService extends BaseService {
+class ProjectService extends BaseService {
+	
+	async getUsers(ctx) {
+		const { companyId } = ctx.state
+		const users = await this.db.User
+			.find({ _company: companyId, removed: false }, '_id username email firstname lastname role')
 
-	async getList(ctx) {
-		ctx.body = 'SUCCESS'
+		ctx.body = this.success({ users })
 	}
 
-	async create(ctx) {
-		const { username, password, firstname, lastname, email } = ctx.request.body
-
-		const newUser = await this.db.User.create({ username, password })
-		const newProfile = await this.db.Profile.create({ _user: newUser.id, firstname, lastname, email })
+	async saveUser(ctx) {
+		const { companyId } = ctx.state
+		const { id, username, password, email, firstname, lastname, role } = ctx.request.body
+		if (id) {
+			const user = await this.db.User.findOne({ _id: id, _company: companyId, removed: false })
+			user.username = username
+			user.email = email
+			user.firstname = firstname
+			user.lastname = lastname
+			user.role = role
+			await user.save()
+		}
+		else {
+			const hashedPassword = await hashPassword(password)
+			const credentials = await this.db.Credentials.create({ password: hashedPassword })
+			await this.db.User.create({ _company: companyId, _credentials: credentials._id, username, email, firstname, lastname, role })
+		}
 		
-		ctx.body = Object.assign(newProfile, { username: newUser.userName })
+		await this.getUsers(ctx)
+	}
+
+	async removeUser(ctx) {
+		const { companyId } = ctx.state
+		const { id } = ctx.request.body
+		if (id) {
+			const user = await this.db.User.findOne({ _id: id, _company: companyId, removed: false })
+			user.removed = true
+			await project.save()
+		}
+
+		await this.getUsers(ctx)
 	}
 
 	setupRoutes(router) {
 		router
-			.post(this.getPath('/'), this.create.bind(this))
-			.get(this.getPath('/list'), this.getList.bind(this))
+			.get(this.getPath('/list'), this.authorize(), this.getUsers.bind(this))
+			.post(this.getPath('/'), this.authorize(), this.saveUser.bind(this))
+			.delete(this.getPath('/'), this.authorize(), this.removeUser.bind(this))
 	}
 	
 }
 
 
-module.exports = UserService
+module.exports = ProjectService

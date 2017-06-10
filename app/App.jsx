@@ -7,7 +7,6 @@ import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
-import SocialPerson from 'material-ui/svg-icons/social/person'
 import { ManageUsersPageContainer } from './users'
 import { ManageProjectsPageContainer } from './projects'
 import { RegisterTimePageContainer } from './registerTime'
@@ -41,7 +40,7 @@ class App extends Component {
 							<Paper className={styles.mainMenuContainer}>
 								<Menu menuItemStyle={{ width: '160px' }}>
 									<MenuItem>
-										<Link to="/timecard">
+										<Link to="/time">
 											Register time
 										</Link>
 									</MenuItem>
@@ -65,7 +64,7 @@ class App extends Component {
 						<article>
 							<Switch>
 								<Route exact path="/" component={ManageUsersPageContainer} />
-								<Route exact path="/timecard" component={RegisterTimePageContainer} />
+								<Route exact path="/time" component={RegisterTimePageContainer} />
 								<Route exact path="/users" component={ManageUsersPageContainer} />
 								<Route exact path="/projects" component={ManageProjectsPageContainer} />
 								<Route exact path="/login" component={LoginPageContainer} />

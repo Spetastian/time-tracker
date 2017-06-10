@@ -1,0 +1,21 @@
+.container {
+	margin-bottom: 2%;
+}
+
+.content {
+	display: flex;
+	justify-content: space-around;
+	padding: 10px;
+}
+
+.content .usernameContainer {
+	flex: 0 0 85%
+}
+
+.content .actionsContaier {
+	flex: 0 0 15%
+}
+
+.nameTextField {
+	max-width: 180px;
+}

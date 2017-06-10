@@ -1,8 +1,8 @@
 import {
-    FETCH_TIME_CARD_REQUEST,
-    FETCH_TIME_CARD_SUCCESS,
-    ADD_NEW_ENTRY_REQUEST,
-    ADD_NEW_ENTRY_SUCCESS
+    FETCH_WEEK_REQUEST,
+    FETCH_WEEK_SUCCESS,
+    CREATE_ENTRY_REQUEST,
+    CREATE_ENTRY_SUCCESS
 } from './actions'
 
 
@@ -14,14 +14,14 @@ const initialState = {
 export default function campaignReducer(state = initialState, action) {
 	switch (action.type) {
 
-		case FETCH_TIME_CARD_REQUEST:
-		case ADD_NEW_ENTRY_REQUEST:
+		case FETCH_WEEK_REQUEST:
+		case CREATE_ENTRY_REQUEST:
 			return Object.assign({}, state, {
 				loading: true
 			})
 
-		case FETCH_TIME_CARD_SUCCESS:
-		case ADD_NEW_ENTRY_SUCCESS:
+		case FETCH_WEEK_SUCCESS:
+		case CREATE_ENTRY_SUCCESS:
 			return Object.assign({}, state, {
 				loading: false,
 				entries: action.entries

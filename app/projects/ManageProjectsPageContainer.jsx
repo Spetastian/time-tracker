@@ -8,7 +8,6 @@ import {
  } from './actions'
 
 import { AuthRequiredContainer } from '../common/auth'
-import Paper from 'material-ui/Paper'
 import NewProjectForm from './components/NewProjectForm'
 import ProjectItem from './components/ProjectItem'
 

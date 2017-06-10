@@ -2,12 +2,17 @@ import { handleAjaxError } from '../utils/epicHelpers'
 
 import {
     FETCH_USERS_REQUEST,
-    fetchUsersSuccess
+    fetchUsersSuccess,
+		CREATE_USER_REQUEST,
+		createUserSuccess,
+		UPDATE_USER_REQUEST,
+		updateUserSuccess,
+		REMOVE_USER_REQUEST,
+		removeUserSuccess
 } from './actions'
 
 import UserService from './UserService'
 import { combineEpics } from 'redux-observable'
-import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/map'
@@ -19,11 +24,42 @@ const userService = new UserService()
 
 const fetchUsersEpic = action$ =>
 	action$.ofType(FETCH_USERS_REQUEST)
-		.mergeMap(action =>
+		.mergeMap(() =>
 			userService.getUsers()
-			.map(ajaxResponse => fetchUsersSuccess(ajaxResponse.response.users))
+			.map(ajaxResponse => fetchUsersSuccess(ajaxResponse.response.data.users))
 			.catch(handleAjaxError)
 		)
 
+const createUserEpic = action$ =>
+	action$.ofType(CREATE_USER_REQUEST)
+		.mergeMap((action) => {
+			const { username, password, email, firstname, lastname, role } = action
+			return userService.createNewUser({ username, password, email, firstname, lastname, role })
+				.map(ajaxResponse => createUserSuccess(ajaxResponse.response.data.users))
+				.catch(handleAjaxError)
+		})
 
-export default combineEpics(fetchUsersEpic)
+const updateUserEpic = action$ =>
+	action$.ofType(UPDATE_USER_REQUEST)
+		.mergeMap((action) => {
+			const { id, username, email, firstname, lastname, role } = action
+			return userService.saveUser({ id, username, email, firstname, lastname, role })
+				.map(ajaxResponse => updateUserSuccess(ajaxResponse.response.data.users))
+				.catch(handleAjaxError)
+		})
+
+const removeUserEpic = action$ =>
+	action$.ofType(REMOVE_USER_REQUEST)
+		.mergeMap(action =>
+			userService.removeUser(action.id)
+			.map(ajaxResponse => removeUserSuccess(ajaxResponse.response.data.users))
+			.catch(handleAjaxError)
+		)
+
+export default combineEpics(
+	fetchUsersEpic,
+	createUserEpic,
+	updateUserEpic,
+	removeUserEpic
+)
+

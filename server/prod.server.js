@@ -25,9 +25,8 @@ const mongoDbPass = process.env.MONGODB_PASS || 'TimeTracker123'
 const db = new Database({ mongoDbUri, mongoDbUser, mongoDbPass })
 
 const authService = new AuthService({ db, area: 'auth' })
-const profileService = new ProfileService({ db, area: 'profiles' })
 const reportService = new ReportService({ db, area: 'reports' })
-const timeCardService = new TimeCardService({ db, area: 'timecards' })
+const timeCardService = new TimeCardService({ db, area: 'time' })
 const projectService = new ProjectService({ db, area: 'projects' })
 const userService = new UserService({ db, area: 'users' })
 
@@ -39,7 +38,6 @@ authService.setupRoutes(publicRouter)
 
 projectService.setupRoutes(authRequiredRouter)
 userService.setupRoutes(authRequiredRouter)
-profileService.setupRoutes(authRequiredRouter)
 reportService.setupRoutes(authRequiredRouter)
 timeCardService.setupRoutes(authRequiredRouter)
 
