@@ -41,17 +41,17 @@ export default class PopoverExampleAnimation extends React.Component {
 		return (
 			<div>
 				<RaisedButton
-  onTouchTap={this.handleOnNewEntryButtonPressed}
-  label="+ New Entry"
-  primary
+					onTouchTap={this.handleOnNewEntryButtonPressed}
+					label="+ New Entry"
+					primary
 				/>
 				<Popover
-  open={this.state.open}
-  anchorEl={this.state.anchorEl}
-  anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-  targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-  onRequestClose={this.handleRequestClose}
-  animation={PopoverAnimationVertical}
+					open={this.state.open}
+					anchorEl={this.state.anchorEl}
+					anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+					targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+					onRequestClose={this.handleRequestClose}
+					animation={PopoverAnimationVertical}
 				>
 					<Menu onItemTouchTap={this.handleOnMenuItemSelected}>
 						<MenuItem value="a" primaryText="Project A" />

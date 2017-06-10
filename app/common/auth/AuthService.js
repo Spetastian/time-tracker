@@ -8,7 +8,7 @@ import cookies from 'js-cookie'
 class ChaptersService {
 
 	constructor() {
-		this.authUrl = ''
+		this.baseUrl = '/auth'
 	}
 
 	getSigninRequestOpts({ username, password }) {
@@ -25,7 +25,7 @@ class ChaptersService {
 
 	getAuthenticationRequestOpts() {
 		return {
-			url: `${this.authUrl}/authenticate`,
+			url: `${this.baseUrl}/authenticate`,
 			method: 'GET',
 			responseType: 'json'
 		}
@@ -48,7 +48,7 @@ class ChaptersService {
 	}
 
 	signIn({ username, password }) {
-		return ajax.post(`${this.authUrl}/signin`, { username, password }, { 'Content-Type': 'application/json' })
+		return ajax.post(`${this.baseUrl}/authenticate`, { username, password }, { 'Content-Type': 'application/json' })
 				.do((successResponse) => { this.setToken(successResponse.response.token) })
 	}
 

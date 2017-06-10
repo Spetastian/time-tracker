@@ -69,5 +69,8 @@ db
 	console.info('MongoDB connected')
 	app.listen(port)
 })
+.catch((err) => {
+	console.error('Could not connect to MongoDB database', err)
+})
 
 

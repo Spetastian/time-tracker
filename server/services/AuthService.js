@@ -1,4 +1,7 @@
 const BaseService = require('./BaseService')
+const nJwt = require('njwt')
+const secureRandom = require('secure-random')
+const signingKey = secureRandom(256, { type: 'Buffer' })
 
 class AuthService extends BaseService {
 
@@ -7,7 +10,17 @@ class AuthService extends BaseService {
 		if (password === 'xxx') {
 			ctx.throw(401)
 		}
-		ctx.body = 'SUCCESS'
+
+		const claims = {
+			iss: 'http://localhost:3000',  // The URL of your service
+			sub: username,    // The UID of the user in your system
+			scope: 'self'
+		}
+
+		const jwt = nJwt.create(claims, signingKey)
+		jwt.setExpiration(new Date().getTime() + 60 * 60 * 1000) // One hour from now
+
+		ctx.body = this.success({ token: jwt.compact() })
 	}
 
 	async authorize(ctx) {

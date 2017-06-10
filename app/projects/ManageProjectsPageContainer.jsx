@@ -1,59 +1,64 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    fetchPlayerListRequest,
-    createPlayerRequest
+    fetchProjectsRequest,
+    createProjectRequest
  } from './actions'
 
+import { AuthRequiredContainer } from '../common/auth'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import NewProjectForm from './components/NewProjectForm'
 
 import styles from './manageProjectsPageContainer.scss'
 
 class ManageProjectsPageContainer extends Component {
     
 	componentDidMount() {
-		// this.props.loadUserList()
+		this.props.loadProjectList()
+	}
+
+	handleProjectAdded = (name) => {
+		this.props.createNewProject(name)
 	}
 
 	render() {
 		return (
-			<div>
-				<div className={styles.container}>
-					<Paper className={styles.item}>
-						<TextField floatingLabelFixed floatingLabelText="Name" />
-						<RaisedButton label="Add project" secondary />
-					</Paper>
-					<Paper className={styles.item}>
-						<p>aifjai nilsson</p>
-					</Paper>
-					<Paper className={styles.item}>
-						<p>aifjai nilsson</p>
-					</Paper>
-					<Paper className={styles.item}>
-						<p>aifjai nilsson</p>
-					</Paper>
-					<Paper className={styles.item}>
-						<p>aifjai nilsson</p>
-					</Paper>
+			<AuthRequiredContainer>
+				<div>
+					<NewProjectForm onProjectAdded={this.handleProjectAdded} />
+					<div className={styles.container}>
+						<Paper className={styles.item}>
+							<p>aifjai nilsson</p>
+						</Paper>
+						<Paper className={styles.item}>
+							<p>aifjai nilsson</p>
+						</Paper>
+						<Paper className={styles.item}>
+							<p>aifjai nilsson</p>
+						</Paper>
+						<Paper className={styles.item}>
+							<p>aifjai nilsson</p>
+						</Paper>
+					</div>
 				</div>
-			</div>
+			</AuthRequiredContainer>
 
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
-	return state.manage
+	return state.projects
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		loadPlayerList: () =>
-            dispatch(fetchPlayerListRequest()),
-		createNewPlayer: name =>
-            dispatch(createPlayerRequest(name))
+		loadProjectList: () =>
+            dispatch(fetchProjectsRequest()),
+		createNewProject: name =>
+            dispatch(createProjectRequest(name))
 	}
 }
 

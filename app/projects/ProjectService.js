@@ -10,8 +10,12 @@ class ProjectService {
 		this.baseUrl = ''
 	}
 	
-	getUsers() {
+	getProjects() {
 		return ajax.get(`${this.baseUrl}/projects/list`, { 'Content-Type': 'application/json' })
+	}
+	
+	createNewProject(name) {
+		return ajax.post(`${this.baseUrl}/projects`, { name }, { 'Content-Type': 'application/json' })
 	}
 	
 

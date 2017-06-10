@@ -35,32 +35,6 @@ app.use(webpackHotMiddleware(compiler, {
 
 app.use(express.static('dist'))
 
-app.post('/signin', (req, res) => {
-
-	const { username, password } = req.body
-
-	console.log({ username, password })
-	
-	try {
-		authenticateUser({ username, password })
-
-		const claims = {
-			iss: 'http://localhost:3000',  // The URL of your service
-			sub: username,    // The UID of the user in your system
-			scope: 'self'
-		}
-
-		const jwt = nJwt.create(claims, signingKey)
-		jwt.setExpiration(new Date().getTime() + 60 * 60 * 1000) // One hour from now
-
-		res.status(200).send({ status: 'success', token: jwt.compact() })
-	}
-	catch (err) {
-		console.error(err)
-		res.status(401).send('Authentication failed')
-	}
-})
-
 app.use((req, res, next) => {
 	const token = req.cookies && req.cookies.token
 	nJwt.verify(token, signingKey, function (err, verifiedJwt) {
