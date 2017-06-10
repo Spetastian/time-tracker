@@ -3,22 +3,22 @@ import { ajax } from 'rxjs/observable/dom/ajax'
 import 'rxjs/add/observable/of'
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/observable/empty'
+import BaseService from '../common/BaseService'
 
-class ProjectService {
+class ProjectService extends BaseService {
 
 	constructor() {
-		this.baseUrl = ''
+		super('projects')
 	}
 	
 	getProjects() {
-		return ajax.get(`${this.baseUrl}/projects/list`, { 'Content-Type': 'application/json' })
+		return this.get('list')
 	}
 	
 	createNewProject(name) {
-		return ajax.post(`${this.baseUrl}/projects`, { name }, { 'Content-Type': 'application/json' })
+		return this.post('', { name })
 	}
 	
-
 }
 
 export default ProjectService

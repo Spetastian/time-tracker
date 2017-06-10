@@ -1,10 +1,3 @@
-@import '../../_global';
-
 .container {
-    margin-top: 12px;
-}
-
-.weekDaysContainer {
-    @extend .widePadding;
-    display: flex;
+	padding: 10px;
 }

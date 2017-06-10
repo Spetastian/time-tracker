@@ -22,7 +22,7 @@ class NewProjectForm extends Component {
 		this.setState({ name: evt.target.value })
 	
 	render = () =>
-		<Paper className={styles.item}>
+		<Paper className={styles.container}>
 			<TextField
 				onChange={this.handleNameChanged}
 				value={this.state.name}

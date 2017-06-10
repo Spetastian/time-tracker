@@ -1,5 +1,29 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const saltRounds = 8
+const secureRandom = require('secure-random')
+const signingKey = secureRandom(256, { type: 'Buffer' })
+const url = 'http://localhost:3000' // Fix this.
+
+function createToken({ companyId, userId, role }) {
+	const claims = {
+		iss: url,  // The URL of your service
+		sub: userId, // The UID of the user in your system
+		scope: 'self',
+		companyId,
+		role
+	}
+
+	const token = jwt.sign({
+		data: claims
+	}, signingKey, { expiresIn: '1h' })
+
+	return token
+}
+
+function verifyToken(token) {
+	return jwt.verify(token, signingKey)
+}
 
 function hashPassword(plaintextPassword) {
 	return new Promise((resolve, reject) => {
@@ -27,6 +51,8 @@ function verifyPassword(plaintextPassword, hashedPassword) {
 }
 
 module.exports = {
+	verifyToken,
+	createToken,
 	hashPassword,
 	verifyPassword
 }

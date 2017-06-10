@@ -1,5 +1,11 @@
 const mongoose = require('mongoose')
-const { profileSchema, userSchema } = require('./schemas')
+mongoose.Promise = global.Promise
+const {
+	credentialsSchema,
+	userSchema,
+	companySchema,
+	projectSchema
+} = require('./schemas')
 
 class Database {
 
@@ -8,8 +14,10 @@ class Database {
 		this.mongoDbUser = mongoDbUser
 		this.mongoDbPass = mongoDbPass
 
+		this.Company = mongoose.model('Company', companySchema)
+		this.Project = mongoose.model('Project', projectSchema)
 		this.User = mongoose.model('User', userSchema)
-		this.Profile = mongoose.model('Profile', profileSchema)
+		this.Credentials = mongoose.model('Credentials', credentialsSchema)
 	}
 
 	async connect() {

@@ -13,7 +13,6 @@ const compiler = webpack(webpackConfig)
 const app = express()
 
 const {
-	authenticateUser,
 	getTimeCard,
 	addEntryToTimeCard,
 	saveTimeCard
@@ -34,27 +33,6 @@ app.use(webpackHotMiddleware(compiler, {
 }))
 
 app.use(express.static('dist'))
-
-app.use((req, res, next) => {
-	const token = req.cookies && req.cookies.token
-	nJwt.verify(token, signingKey, function (err, verifiedJwt) {
-		if (err) {
-			console.error(err)
-			res.status(403).send('Authentication failed')
-		}
-		else {
-			const substitute =  verifiedJwt.body.sub
-			req.user = {
-				username: substitute
-			}
-			next()
-		}
-	})
-})
-
-app.get('/authenticate', (req, res) => {
-	res.status(200).send('OK')
-})
 
 app.get('/timecard/:weekNumber', (req, res) => {
 	const { weekNumber } = req.params
@@ -90,6 +68,6 @@ app.post('/timecard/:weekNumber/save', (req, res) => {
 })
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8080, () => {
 	console.log('Server running...')
 })

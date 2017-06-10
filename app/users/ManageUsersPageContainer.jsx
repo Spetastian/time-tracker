@@ -11,7 +11,7 @@ import { List, ListItem } from 'material-ui/List'
 import FontIcon from 'material-ui/FontIcon'
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin'
 
-class ManagePageContainer extends Component {
+class ManageUsersPageContainer extends Component {
     
 	componentDidMount() {
 		// this.props.loadUserList()
@@ -61,7 +61,7 @@ class ManagePageContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return state.manage
+	return state.users
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -76,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ManagePageContainer)
+)(ManageUsersPageContainer)

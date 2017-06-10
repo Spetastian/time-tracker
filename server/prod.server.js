@@ -2,6 +2,10 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const serveStatic = require('koa-static')
+const cors = require('koa-cors')
+const authHeader = require('koa-auth-header')
+const { verifyToken } = require('./utils/security')
+const { insertBasicData } = require('./bootstrapDb')
 
 const app = new Koa()
 const { Database } = require('./db')
@@ -27,16 +31,17 @@ const timeCardService = new TimeCardService({ db, prefix: 'timecards' })
 const projectService = new ProjectService({ db, prefix: 'projects' })
 const userService = new UserService({ db, prefix: 'users' })
 
-const router = new Router()
+const authRequiredRouter = new Router()
+const publicRouter = new Router()
 
-router.get('/', serveStatic('./dist'))
+publicRouter.get('/', serveStatic('./dist'))
+authService.setupRoutes(publicRouter)
 
-authService.setupRoutes(router)
-userService.setupRoutes(router)
-profileService.setupRoutes(router)
-reportService.setupRoutes(router)
-timeCardService.setupRoutes(router)
-projectService.setupRoutes(router)
+projectService.setupRoutes(authRequiredRouter)
+userService.setupRoutes(authRequiredRouter)
+profileService.setupRoutes(authRequiredRouter)
+reportService.setupRoutes(authRequiredRouter)
+timeCardService.setupRoutes(authRequiredRouter)
 
 app
 	.use(async (ctx, next) => {
@@ -45,18 +50,47 @@ app
 		}
 		catch (err) {
 			console.error(err)
-			ctx.body = err
+			ctx.status = err.status
+			ctx.body = err.message
 		}
 	})
-	.use(bodyParser())
+	// TODO: Configure CORS: https://github.com/evert0n/koa-cors
+	.use(cors({
+		origin: true,
+		methods: ['GET', 'POST', 'DELETE'],
+		credentials: true,
+		headers: ['Authorization', 'Content-Type', 'x-requested-with']
+	}))
 	.use(async (ctx, next) => {
 		if (!ctx.accepts('json'))
 			ctx.throw(406, 'Only accepts json content')
 
 		await next()
 	})
-	.use(router.routes())
-	.use(router.allowedMethods())
+	.use(bodyParser())
+	.use(publicRouter.routes())
+	.use(publicRouter.allowedMethods())
+	.use(authHeader({
+		required: true,
+		types: {
+			Bearer(value) {
+				this.state.token = value
+			}
+		}
+	}))
+	.use(async (ctx, next) => {
+		try {
+			const { token } = ctx.state
+			verifyToken(token)
+			await next()
+		}
+		catch (err) {
+			console.error(err)
+			ctx.throw(401, 'Authentication failed')
+		}
+	})
+	.use(authRequiredRouter.routes())
+	.use(authRequiredRouter.allowedMethods())
 	.on('error', (err, ctx) => {
 		console.error('server error', err)
 		ctx.body = 'oops error'
@@ -65,6 +99,7 @@ app
 
 db
 .connect()
+.then(insertBasicData(db))
 .then(() => {
 	console.info('MongoDB connected')
 	app.listen(port)

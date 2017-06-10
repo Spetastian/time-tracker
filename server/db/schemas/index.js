@@ -1,7 +1,11 @@
-const profileSchema = require('./profileSchema')
 const userSchema = require('./userSchema')
+const credentialsSchema = require('./credentialsSchema')
+const companySchema = require('./companySchema')
+const projectSchema = require('./projectSchema')
 
 module.exports = {
-	profileSchema,
-	userSchema
+	userSchema,
+	credentialsSchema,
+	companySchema,
+	projectSchema
 }

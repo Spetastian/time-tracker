@@ -1,43 +1,44 @@
 const BaseService = require('./BaseService')
-const nJwt = require('njwt')
-const secureRandom = require('secure-random')
-const signingKey = secureRandom(256, { type: 'Buffer' })
+const { createToken, verifyPassword } = require('../utils/security')
 
 class AuthService extends BaseService {
 
 	async authenticate(ctx) {
-		const { username, password } = ctx.request.body
-		if (password === 'xxx') {
-			ctx.throw(401)
+		try {
+
+			const { username, password } = ctx.request.body
+
+			const user = await this.db.User
+				.findOne({ username })
+				.populate('_company _credentials')
+			if (!user) throw new Error('User was not found in the database')
+			
+			await verifyPassword(password, user._credentials.password)
+
+			const {
+				id: userId,
+				email,
+				firstname,
+				lastname,
+				role,
+				_company: {
+					id: companyId,
+					name: companyName
+				}
+			} = user
+
+			const token = createToken({ companyId, userId, role })
+			ctx.body = this.success({ token, companyName, email, firstname, lastname })
 		}
-
-		const claims = {
-			iss: 'http://localhost:3000',  // The URL of your service
-			sub: username,    // The UID of the user in your system
-			scope: 'self'
+		catch (err) {
+			console.error(err)
+			ctx.throw(401, 'Authentication failed')
 		}
-
-		const jwt = nJwt.create(claims, signingKey)
-		jwt.setExpiration(new Date().getTime() + 60 * 60 * 1000) // One hour from now
-
-		ctx.body = this.success({ token: jwt.compact() })
-	}
-
-	async authorize(ctx) {
-		// console.log(this.db)
-		const user = new this.db.User({ usernamezz: 'Whasfd', password: '12345dsd' })
-		const newUser = await user.save()
-		
-		const profile = new this.db.Profile({ _userId: newUser.id, firstname: 'first', lastname: 'last' })
-		const newProfile = await profile.save()
-
-		ctx.body = newProfile
 	}
 
 	setupRoutes(router) {
 		router
 			.post(this.getPath('/authenticate'), this.authenticate.bind(this))
-			.get(this.getPath('/authorize'), this.authorize.bind(this))
 	}
 	
 }

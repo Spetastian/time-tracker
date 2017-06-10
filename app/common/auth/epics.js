@@ -30,8 +30,8 @@ const authenticationVerifyEpic = action$ =>
 				authService.verifyToken()
 					.map(() => authenticationSuccess())
 					.catch((err) => {
-						console.error(err)
-						return Observable.of(replace('/'))
+						console.error('Error when authenticating token', err)
+						return Observable.of(replace('/login'))
 					})
 				)
 		
