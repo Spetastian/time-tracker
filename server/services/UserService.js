@@ -38,7 +38,7 @@ class ProjectService extends BaseService {
 		if (id) {
 			const user = await this.db.User.findOne({ _id: id, _company: companyId, removed: false })
 			user.removed = true
-			await project.save()
+			await user.save()
 		}
 
 		await this.getUsers(ctx)

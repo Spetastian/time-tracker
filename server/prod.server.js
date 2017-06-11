@@ -21,7 +21,7 @@ const {
 const port = process.env.PORT || 3000
 const mongoDbUri = process.env.MONGODB_URI || 'ds062919.mlab.com:62919/timetracker'
 const mongoDbUser = process.env.MONGODB_USER || 'timetracker'
-const mongoDbPass = process.env.MONGODB_PASS || 'TimeTracker123'
+const mongoDbPass = process.env.MONGODB_PASS || 'RaincoatBloodbathCorvette'
 const db = new Database({ mongoDbUri, mongoDbUser, mongoDbPass })
 
 const authService = new AuthService({ db, area: 'auth' })
@@ -33,7 +33,6 @@ const userService = new UserService({ db, area: 'users' })
 const authRequiredRouter = new Router()
 const publicRouter = new Router()
 
-publicRouter.get('/', serveStatic('./dist'))
 authService.setupRoutes(publicRouter)
 
 projectService.setupRoutes(authRequiredRouter)
@@ -59,6 +58,7 @@ app
 		credentials: true,
 		headers: ['Authorization', 'Content-Type', 'x-requested-with']
 	}))
+	.use(serveStatic('./dist'))
 	.use(async (ctx, next) => {
 		if (!ctx.accepts('json'))
 			ctx.throw(406, 'Only accepts json content')

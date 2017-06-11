@@ -37,7 +37,6 @@ class ManageProjectsPageContainer extends Component {
 
 
 	render() {
-		console.log(this.props)
 		return (
 			<AuthRequiredContainer>
 				<div>

@@ -45,6 +45,9 @@ class ManageUsersPageContainer extends Component {
 								key={user._id}
 								id={user._id}
 								username={user.username}
+								firstname={user.firstname}
+								lastname={user.lastname}
+								email={user.email}
 							/>
 						)}
 					</div>

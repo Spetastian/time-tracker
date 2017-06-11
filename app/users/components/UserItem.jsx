@@ -107,20 +107,23 @@ class UserItem extends Component {
 			/>
 		</div>
 
-	renderUsernameField = () =>
+	renderTextFields = () =>
 		<TextField
 			className={styles.usernameTextField}
 			onChange={this.handleNameChange}
 			value={this.state.username}
 		/>
 
-	renderUsernameLabel = () =>
-		<p>{this.props.username}</p>
+	renderLabels = () =>
+		<div>
+			<div>{this.props.username} <i>{`<${this.props.email}>`}</i></div>
+			<div>{this.props.firstname} {this.props.lastname}</div>
+		</div>
 
 	renderItem = () =>
 		<div className={styles.content}>
 			<div className={styles.usernameContainer}>
-				{this.state.editMode ? this.renderUsernameField() : this.renderUsernameLabel()}
+				{this.state.editMode ? this.renderTextFields() : this.renderLabels()}
 			</div>
 			<div className={styles.actionsContaier}>
 				{this.renderEditButton()}
