@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import WeekEntry from './WeekEntry'
-import WeekSelector from './WeekSelector'
 import ProjectSelector from './ProjectSelector'
 import styles from './timeCard.scss'
-
+import moment from 'moment'
 
 class TimeCard extends Component {
+
+	constructor(props) {
+		super(props)
+		this.startOfWeek = moment().startOf('isoweek')
+		this.endOfWeek = moment().endOf('isoweek')
+	}
 
 	handleOnProjectSelected = (projectId) => {
 		this.props.onNewEntryAdded(projectId)
@@ -22,21 +29,46 @@ class TimeCard extends Component {
 		)
 	}
 
+	renderTabs() {
+		return (
+			<Tabs>
+				{this.props.periods.map((period, i) =>
+					<Tab
+						key={i}
+						label={`${this.props.monthTitle} ${period.start}-${period.end}`}
+					/>
+			)}
+			</Tabs>
+		)
+	}
+
+	handlePrevWeekPressed = () => {
+		this.startOfWeek = this.startOfWeek.add(1, 'weeks')
+		this.endOfWeek = this.endOfWeek.add(1, 'weeks')
+		this.props.onWeekChange(this.getWeekInfo())
+	}
+
+	handleNextWeekPressed = () => {
+		this.startOfWeek = this.startOfWeek.subtract(1, 'weeks')
+		this.endOfWeek = this.endOfWeek.subtract(1, 'weeks')
+		this.props.onWeekChange(this.getWeekInfo())
+	}
+
+	getWeekInfo() {
+		const startFormated = this.startOfWeek.format('MMM Do')
+		const endFormated = this.endOfWeek.format('MMM Do')
+		const weekNumber = this.startOfWeek.week()
+		return { weekNumber, startFormated, endFormated }
+	}
+
 	render() {
 		return (
 			<div className={styles.container} >
+				{this.renderTabs()}
 				<Toolbar>
 					<ToolbarGroup>
-						<WeekSelector
-							weeksInYear={this.props.weeksInYear}
-							selectedWeek={this.props.selectedWeek}
-							onWeekSelected={this.props.onWeekChange}
-						/>
 						<ToolbarSeparator />
 						<ProjectSelector onProjectSelected={this.handleOnProjectSelected} />
-					</ToolbarGroup>
-					<ToolbarGroup>
-						<RaisedButton label="Send weekly report" secondary />
 					</ToolbarGroup>
 				</Toolbar>
 				{this.renderEntries()}

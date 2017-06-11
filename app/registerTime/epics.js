@@ -11,7 +11,7 @@ import {
 		removeEntrySuccess
 } from './actions'
 
-import WeekService from './WeekService'
+import TimeService from './TimeService'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/mergeMap'
@@ -21,12 +21,12 @@ import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/observable/of'
 
-const TimeService = new TimeService()
+const timeService = new TimeService()
 
 const fetchWeekEpic = action$ =>
 	action$.ofType(FETCH_WEEK_REQUEST)
 		.mergeMap(action =>
-			TimeService.getEntries({
+			timeService.getEntries({
 				weekNumber: action.weekNumber
 			})
 			.map(ajaxResponse => fetchWeekSuccess(ajaxResponse.response.data.entries))
@@ -36,7 +36,7 @@ const fetchWeekEpic = action$ =>
 const createEntryEpic = action$ =>
 	action$.ofType(CREATE_ENTRY_REQUEST)
 		.mergeMap(action =>
-			TimeService.addEntry({
+			timeService.addEntry({
 				projectId: action.projectId,
 				weekNumber: action.weekNumber
 			})
@@ -47,7 +47,7 @@ const createEntryEpic = action$ =>
 const saveEntryEpic = action$ =>
 	action$.ofType(SAVE_ENTRY_REQUEST)
 		.mergeMap(action =>
-			TimeService.saveEntry({
+			timeService.saveEntry({
 				id: action.id,
 				weekNumber: action.weekNumber
 			})
@@ -58,7 +58,7 @@ const saveEntryEpic = action$ =>
 const removeEntryEpic = action$ =>
 	action$.ofType(REMOVE_ENTRY_REQUEST)
 		.mergeMap(action =>
-			TimeService.saveEntry({
+			timeService.saveEntry({
 				id: action.id,
 				weekNumber: action.weekNumber
 			})

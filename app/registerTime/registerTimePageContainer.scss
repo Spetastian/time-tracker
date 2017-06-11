@@ -2,3 +2,12 @@
 	display: flex;
 	justify-content: center;
 }
+
+.monthButtonsContainer {
+	display: flex;
+	justify-content:space-between;
+}
+
+.monthButton{
+	width:176px;
+}

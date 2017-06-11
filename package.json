@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "webpack",
     "dev": "node server/dev.server --open",
-		"be": "nodemon server/prod.server",
+    "be": "nodemon server/prod.server",
     "start": "node server/prod.server"
   },
   "author": "Sebastian Lindström <sebastian.lindstrom@gmail.com>",
@@ -52,6 +52,7 @@
     "koa-static": "^3.0.0",
     "material-ui": "^0.18.1",
     "moment": "^2.18.1",
+    "moment-range": "^3.0.3",
     "mongodb": "^2.2.28",
     "mongoose": "^4.10.5",
     "muicss": "^0.9.16",
