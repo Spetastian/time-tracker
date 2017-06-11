@@ -11,7 +11,6 @@ const app = new Koa()
 const { Database } = require('./db')
 const {
 	AuthService,
-	ProfileService,
 	ReportService,
 	TimeCardService,
 	ProjectService,
@@ -19,9 +18,9 @@ const {
 } = require('./services')
 
 const port = process.env.PORT || 3000
-const mongoDbUri = process.env.MONGODB_URI || 'ds062919.mlab.com:62919/timetracker'
-const mongoDbUser = process.env.MONGODB_USER || 'timetracker'
-const mongoDbPass = process.env.MONGODB_PASS || 'RaincoatBloodbathCorvette'
+const mongoDbUri = process.env.MONGODB_URI
+const mongoDbUser = process.env.MONGODB_USER
+const mongoDbPass = process.env.MONGODB_PASS
 const db = new Database({ mongoDbUri, mongoDbUser, mongoDbPass })
 
 const authService = new AuthService({ db, area: 'auth' })
