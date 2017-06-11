@@ -11,20 +11,20 @@ class TimeService extends BaseService {
 		super('time')
 	}
 	
-	getEntries(weekNumber) {
-		return this.get(weekNumber)
+	getEntries({ week, year, month }) {
+		return this.get('', { week, year, month })
 	}
 	
-	createNewEntry({ weekNumber, projectId }) {
-		return this.post(weekNumber, { projectId })
+	createNewEntry({ week, year, month, projectId }) {
+		return this.post('', { week, year, month, projectId })
 	}
 	
-	saveEntry({ id, weekNumber }) {
-		return this.post(weekNumber, { id })
+	saveEntry({ id }) {
+		return this.post('', { id })
 	}
 	
-	removeEntry({ id, weekNumber }) {
-		return this.delete(weekNumber, { id })
+	removeEntry({ id, week }) {
+		return this.delete(week, { id })
 	}
 	
 }

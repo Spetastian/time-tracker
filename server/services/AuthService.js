@@ -29,8 +29,11 @@ class AuthService extends BaseService {
 				}
 			} = user
 
+
+			const projects = await this.db.Project.find({ _company: companyId, removed: false }, '_id name')
+
 			const token = createToken({ companyId, userId, role })
-			ctx.body = this.success({ token, companyName, email, firstname, lastname })
+			ctx.body = this.success({ token, companyName, email, firstname, lastname, projects })
 		}
 		catch (err) {
 			console.error(err)

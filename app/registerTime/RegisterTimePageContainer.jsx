@@ -5,8 +5,8 @@ const moment = extendMoment(Moment)
 
 import { connect } from 'react-redux'
 import {
-	fetchTimeCardRequest,
-	addNewEntryRequest
+	fetchEntriesRequest,
+	createEntryRequest
 } from './actions'
 import TimeCard from './components/TimeCard'
 import FlatButton from 'material-ui/FlatButton'
@@ -23,13 +23,20 @@ class RegisterTimePageContainer extends Component {
 	}
 
 	componentDidMount() {
-		// this.props.loadTimeCard({ weekNumber: this.state.selectedWeek })
+		const { week, year, month } = this.state
+		this.props.loadEntries({
+			week: this.state.selectedWeek,
+			month: this.state.selectedMonth,
+			year: this.state.selectedYear
+		})
 	}
 
-	handleOnNewEntryAdded = (projectId) => {
+	handleOnNewEntryAdded = ({ projectId, week }) => {
 		this.props.addNewEntry({
 			projectId,
-			weekNumber: this.state.selectedWeek
+			week,
+			year: this.state.selectedYear,
+			month: this.state.selectedMonth
 		})
 	}
 
@@ -101,7 +108,7 @@ class RegisterTimePageContainer extends Component {
 		const prevMonthTitle = moment(monthStarting).subtract(1, 'month').format('MMMM YYYY')
 
 		return {
-			selectedWeek: 1,
+			selectedWeek: date.week(),
 			title,
 			nextMonthTitle,
 			prevMonthTitle,
@@ -137,6 +144,7 @@ class RegisterTimePageContainer extends Component {
 					<TimeCard
 						monthTitle={this.state.shortMonthName}
 						periods={this.state.periods}
+						projects={this.props.projects}
 						entries={this.props.entries}
 						weeksInYear={this.state.weeksInYear}
 						selectedWeek={this.state.selectedWeek}
@@ -150,15 +158,18 @@ class RegisterTimePageContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return state.registerTime
+	const { entries, loading } = state.registerTime
+	const { projects } = state.auth
+	console.log('state projects', projects)
+	return { projects, entries, loading }
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		loadTimeCard: ({ weekNumber }) =>
-			dispatch(fetchTimeCardRequest({ weekNumber })),
-		addNewEntry: ({ weekNumber, projectId }) =>
-			dispatch(addNewEntryRequest({ weekNumber, projectId }))
+		loadEntries: ({ week, month, year }) =>
+			dispatch(fetchEntriesRequest({ week, month, year })),
+		addNewEntry: ({ projectId, week, month, year }) =>
+			dispatch(createEntryRequest({ projectId, week, month, year }))
 	}
 }
 

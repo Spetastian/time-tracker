@@ -3,10 +3,9 @@ import {
     SIGN_IN_REQUEST,
     SIGN_OUT_REQUEST,
 		VERIFY_AUTHENTICATION,
-    AUTHENTICATION_REQUEST,
+		verifyAuthenticationSuccess,
     signInSuccess,
-    signOutSuccess,
-    authenticationSuccess
+    signOutSuccess
 } from './actions'
 
 import { replace } from 'react-router-redux'
@@ -28,33 +27,24 @@ const authenticationVerifyEpic = action$ =>
     action$.ofType(VERIFY_AUTHENTICATION)
 			.mergeMap(() =>
 				authService.verifyToken()
-					.map(() => authenticationSuccess())
+					.map(() => verifyAuthenticationSuccess())
 					.catch((err) => {
 						console.error('Error when authenticating token', err)
 						return Observable.of(replace('/login'))
 					})
 				)
 		
-const authenticationRequestEpic = action$ =>
-    action$.ofType(AUTHENTICATION_REQUEST)
-        .mergeMap(() =>
-            authService.authenticate()
-                .map(() => authenticationSuccess())
-								.catch(handleAjaxError)
-        )
-
 const signInRequestEpic = action$ =>
     action$.ofType(SIGN_IN_REQUEST)
         .mergeMap(action =>
             authService.signIn({ username: action.username, password: action.password })
-								.flatMap(() => [signInSuccess(), replace('/')])
+								.flatMap(ajaxResponse => [signInSuccess(ajaxResponse.response.data), replace('/')])
 								.catch(handleAjaxError)
         )
 
 
 export default combineEpics(
 		authenticationVerifyEpic,
-		authenticationRequestEpic,
 		signInRequestEpic
 )
 

@@ -1,21 +1,38 @@
 import {
-    AUTHENTICATION_REQUEST,
-    AUTHENTICATION_SUCCESS
+    SIGN_IN_REQUEST,
+    SIGN_IN_SUCCESS,
+		VERIFY_AUTHENTICATION_SUCCESS
 } from './actions'
 
 const initialState = {
+	companyName: null,
+	email: null,
+	firstname: null,
+	lastname: null,
+	projects: [],
 	loading: false,
 	authenticated: false
 }
 
 export default function campaignReducer(state = initialState, action) {
 	switch (action.type) {
-		case AUTHENTICATION_REQUEST:
+		case SIGN_IN_REQUEST:
 			return Object.assign({}, state, {
 				loading: true
 			})
 
-		case AUTHENTICATION_SUCCESS:
+		case SIGN_IN_SUCCESS:
+			return Object.assign({}, state, {
+				companyName: action.companyName,
+				email: action.email,
+				firstname: action.firstname,
+				lastname: action.lastname,
+				projects: action.projects || [],
+				loading: false,
+				authenticated: true
+			})
+
+		case VERIFY_AUTHENTICATION_SUCCESS:
 			return Object.assign({}, state, {
 				loading: false,
 				authenticated: true

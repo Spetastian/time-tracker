@@ -1,20 +1,12 @@
 
 export const VERIFY_AUTHENTICATION = 'VERIFY_AUTHENTICATION'
-export const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
-export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
-export const AUTHENTICATION_FAILURE = 'AUTHENTICATION_FAILURE'
+export const VERIFY_AUTHENTICATION_SUCCESS = 'VERIFY_AUTHENTICATION_SUCCESS'
 
 export const verifyAuthentication = () =>
     ({ type: VERIFY_AUTHENTICATION })
 
-export const authenticationRequest = () =>
-    ({ type: AUTHENTICATION_REQUEST })
-
-export const authenticationSuccess = () =>
-    ({ type: AUTHENTICATION_SUCCESS })
-
-export const authenticationFailure = error =>
-    ({ type: AUTHENTICATION_FAILURE, error })
+export const verifyAuthenticationSuccess = () =>
+    ({ type: VERIFY_AUTHENTICATION_SUCCESS })
 
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
@@ -24,8 +16,8 @@ export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE'
 export const signInRequest = ({ username, password }) =>
     ({ type: SIGN_IN_REQUEST, username, password })
 
-export const signInSuccess = () =>
-    ({ type: SIGN_IN_SUCCESS })
+export const signInSuccess = ({ companyName, email, firstname, lastname, projects }) =>
+    ({ type: SIGN_IN_SUCCESS, companyName, email, firstname, lastname, projects })
 
 export const signInFailure = error =>
     ({ type: SIGN_IN_FAILURE, error })

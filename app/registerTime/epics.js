@@ -1,8 +1,8 @@
 import { handleAjaxError } from '../utils/epicHelpers'
 
 import {
-    FETCH_WEEK_REQUEST,
-    fetchWeekSuccess,
+    FETCH_ENTRIES_REQUEST,
+    fetchEntriesSuccess,
     CREATE_ENTRY_REQUEST,
     createEntrySuccess,
 		SAVE_ENTRY_REQUEST,
@@ -23,22 +23,24 @@ import 'rxjs/add/observable/of'
 
 const timeService = new TimeService()
 
-const fetchWeekEpic = action$ =>
-	action$.ofType(FETCH_WEEK_REQUEST)
+const fetchEntriesEpic = action$ =>
+	action$.ofType(FETCH_ENTRIES_REQUEST)
 		.mergeMap(action =>
 			timeService.getEntries({
 				weekNumber: action.weekNumber
 			})
-			.map(ajaxResponse => fetchWeekSuccess(ajaxResponse.response.data.entries))
+			.map(ajaxResponse => fetchEntriesSuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)
 		)
 
 const createEntryEpic = action$ =>
 	action$.ofType(CREATE_ENTRY_REQUEST)
 		.mergeMap(action =>
-			timeService.addEntry({
+			timeService.createNewEntry({
 				projectId: action.projectId,
-				weekNumber: action.weekNumber
+				week: action.week,
+				year: action.year,
+				month: action.month
 			})
 			.map(ajaxResponse => createEntrySuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)
@@ -67,7 +69,7 @@ const removeEntryEpic = action$ =>
 		)
 
 export default combineEpics(
-	fetchWeekEpic,
+	fetchEntriesEpic,
 	createEntryEpic,
 	saveEntryEpic,
 	removeEntryEpic

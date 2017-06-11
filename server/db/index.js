@@ -4,7 +4,8 @@ const {
 	credentialsSchema,
 	userSchema,
 	companySchema,
-	projectSchema
+	projectSchema,
+	timeEntrySchema
 } = require('./schemas')
 
 class Database {
@@ -18,6 +19,7 @@ class Database {
 		this.Project = mongoose.model('Project', projectSchema)
 		this.User = mongoose.model('User', userSchema)
 		this.Credentials = mongoose.model('Credentials', credentialsSchema)
+		this.TimeEntry = mongoose.model('TimeEntry', timeEntrySchema)
 	}
 
 	async connect() {

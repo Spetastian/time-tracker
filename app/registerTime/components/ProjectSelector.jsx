@@ -54,10 +54,13 @@ export default class PopoverExampleAnimation extends React.Component {
 					animation={PopoverAnimationVertical}
 				>
 					<Menu onItemTouchTap={this.handleOnMenuItemSelected}>
-						<MenuItem value="a" primaryText="Project A" />
-						<MenuItem value="b" primaryText="Project B" />
-						<MenuItem value="c" primaryText="Project C" />
-						<MenuItem value="d" primaryText="Project D" />
+						{this.props.projects.map((project, i) =>
+							<MenuItem
+								key={i}
+								value={project._id}
+								primaryText={project.name}
+							/>
+						)}
 					</Menu>
 				</Popover>
 			</div>
