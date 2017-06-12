@@ -8,11 +8,9 @@ module.exports = new Schema({
 	week: Number,
 	month: Number,
 	year: Number,
-	entries: [{
-		days: [{
-			date: String,
-			amount: Number
-		}]
+	days: [{
+		date: String,
+		amount: Number
 	}],
 	removed: { type: Boolean, default: false }
 })

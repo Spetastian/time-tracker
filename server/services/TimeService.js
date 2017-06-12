@@ -1,4 +1,5 @@
 const BaseService = require('./BaseService')
+const moment = require('moment')
 
 class TimeService extends BaseService {
 	
@@ -21,6 +22,7 @@ class TimeService extends BaseService {
 			await project.save()
 		}
 		else {
+			const period = moment({ year, month, week })
 			await this.db.TimeEntry.create({ _user: userId, _project: projectId, week, year, month })
 		}
 		
