@@ -1,5 +1,7 @@
 const BaseService = require('./BaseService')
-const moment = require('moment')
+const Moment = require('moment')
+const { extendMoment } = require('moment-range')
+const moment = extendMoment(Moment)
 
 class TimeService extends BaseService {
 	
@@ -7,7 +9,7 @@ class TimeService extends BaseService {
 		const { userId } = ctx.state
 		const { week, year, month } = ctx.request.body
 
-		const entries = await this.db.TimeEntry
+		const entries = await this.db.TimeEntrys
 			.find({ _user: userId, removed: false, week, year, month }, '_id _projectId week year month')
 
 		ctx.body = this.success({ entries })
@@ -23,7 +25,21 @@ class TimeService extends BaseService {
 		}
 		else {
 			const period = moment({ year, month, week })
-			await this.db.TimeEntry.create({ _user: userId, _project: projectId, week, year, month })
+			const weekStarting = moment(period).startOf('isoweek')
+			const weekEnding = moment(period).endOf('isoweek')
+
+			const weekRange = moment.range(weekStarting, weekEnding)
+			const days = []
+
+			for (const day of weekRange.by('day')) {
+				days.push({
+					date: day,
+					amount: 0
+				})
+			}
+
+			console.log(period)
+			await this.db.TimeEntry.create({ _user: userId, _project: projectId, days, week, year, month })
 		}
 		
 		await this.getEntries(ctx)
