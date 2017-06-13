@@ -34,39 +34,6 @@ app.use(webpackHotMiddleware(compiler, {
 
 app.use(express.static('dist'))
 
-app.get('/timecard/:weekNumber', (req, res) => {
-	const { weekNumber } = req.params
-	const timeCard = getTimeCard({ username: req.user.username, weekNumber })
-	res.status(200).send(timeCard)
-})
-
-app.post('/timecard/:weekNumber/add', (req, res) => {
-	const { projectId } = req.body
-	const { weekNumber } = req.params
-
-	const entries = addEntryToTimeCard({
-		username: req.user.username,
-		weekNumber,
-		projectId
-	})
-
-	res.status(200).send(entries)
-})
-
-app.post('/timecard/:weekNumber/save', (req, res) => {
-	
-	const { entries } = req.body
-	const { weekNumber } = req.params
-
-	const timeCard = saveTimeCard({
-		username: req.user.username,
-		weekNumber,
-		entries
-	})
-
-	res.status(200).send(timeCard)
-})
-
 
 app.listen(process.env.PORT || 8080, () => {
 	console.log('Server running...')

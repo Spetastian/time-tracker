@@ -9,7 +9,7 @@ module.exports = new Schema({
 	month: Number,
 	year: Number,
 	days: [{
-		date: Date,
+		dayOfMonth: Number,
 		amount: Number
 	}],
 	removed: { type: Boolean, default: false }

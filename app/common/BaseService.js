@@ -8,7 +8,7 @@ import 'rxjs/add/observable/empty'
 class BaseService {
 
 	constructor(name) {
-		this.baseUrl = `/${name}`
+		this.baseUrl = `http://localhost:3000/${name}`
 	}
 
 

@@ -1,8 +1,8 @@
 export const FETCH_ENTRIES_CARD_REQUEST = 'FETCH_ENTRIES_CARD_REQUEST'
 export const FETCH_ENTRIES_CARD_SUCCESS = 'FETCH_ENTRIES_CARD_SUCCESS'
 
-export const fetchEntriesRequest = ({ week }) =>
-    ({ type: FETCH_ENTRIES_CARD_REQUEST, week })
+export const fetchEntriesRequest = ({ week, month, year }) =>
+    ({ type: FETCH_ENTRIES_CARD_REQUEST, week, month, year })
 
 export const fetchEntriesSuccess = entries =>
     ({ type: FETCH_ENTRIES_CARD_SUCCESS, entries })
@@ -11,8 +11,8 @@ export const fetchEntriesSuccess = entries =>
 export const CREATE_ENTRY_REQUEST = 'CREATE_ENTRY_REQUEST'
 export const CREATE_ENTRY_SUCCESS = 'CREATE_ENTRY_SUCCESS'
 
-export const createEntryRequest = ({ week, year, month, projectId }) =>
-    ({ type: CREATE_ENTRY_REQUEST, week, year, month, projectId })
+export const createEntryRequest = ({ projectId, week, startDay, endDay, month, year }) =>
+    ({ type: CREATE_ENTRY_REQUEST, projectId, week, startDay, endDay, month, year })
 
 export const createEntrySuccess = entries =>
     ({ type: CREATE_ENTRY_SUCCESS, entries })

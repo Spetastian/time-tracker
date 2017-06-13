@@ -7,38 +7,38 @@ class TimeService extends BaseService {
 	
 	async getEntries(ctx) {
 		const { userId } = ctx.state
-		const { week, year, month } = ctx.request.body
+		const { week, month, year } = ctx.request.body
 
-		const entries = await this.db.TimeEntrys
-			.find({ _user: userId, removed: false, week, year, month }, '_id _projectId week year month')
+		const entries = await this.db.TimeEntry
+			.find({ _user: userId, removed: false, week, year, month }, '_id _projectId week year month days')
 
 		ctx.body = this.success({ entries })
 	}
 
 	async saveEntry(ctx) {
 		const { userId } = ctx.state
-		const { id, week, year, month, projectId } = ctx.request.body
+		const { id, projectId, week, startDay, endDay, month, year } = ctx.request.body
 		if (id) {
 			const project = await this.db.TimeEntry.findOne({ _id: id, _user: userId, removed: false })
 			project._projectId = projectId
 			await project.save()
 		}
 		else {
-			const period = moment({ year, month, week })
-			const weekStarting = moment(period).startOf('isoweek')
-			const weekEnding = moment(period).endOf('isoweek')
+			console.log({ startDay, endDay })
+			const periodStart = moment({ year, month, day: startDay })
+			const periodEnd = moment({ year, month, day: endDay })
 
-			const weekRange = moment.range(weekStarting, weekEnding)
+			const weekRange = moment.range(periodStart, periodEnd)
 			const days = []
 
-			for (const day of weekRange.by('day')) {
+			for (const date of weekRange.by('day')) {
 				days.push({
-					date: day,
+					dayOfMonth: date.date(),
 					amount: 0
 				})
 			}
 
-			console.log(period)
+			console.log(days)
 			await this.db.TimeEntry.create({ _user: userId, _project: projectId, days, week, year, month })
 		}
 		

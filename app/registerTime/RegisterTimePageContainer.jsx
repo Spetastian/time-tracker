@@ -31,23 +31,23 @@ class RegisterTimePageContainer extends Component {
 		})
 	}
 
-	handleOnNewEntryAdded = ({ projectId, week }) => {
-		this.props.addNewEntry({
-			projectId,
-			week,
-			year: this.state.selectedYear,
-			month: this.state.selectedMonth
-		})
-	}
-
-	handleOnWeekChange = ({ weekNumber, startFormated, endFormated }) => {
+	handleOnWeekChange = (week) => {
 
 		this.setState({
-			selectedWeek: weekNumber,
-			startFormated,
-			endFormated
+			selectedWeek: week
 		})
-		this.props.loadTimeCard({ weekNumber })
+
+		console.log({ 
+			week,
+			month: this.state.selectedMonth,
+			year: this.state.selectedYear 
+		})
+
+		this.props.loadEntries({ 
+			week,
+			month: this.state.selectedMonth,
+			year: this.state.selectedYear 
+		})
 	}
 
 	handlePrevMonthPressed = () => {
@@ -74,6 +74,7 @@ class RegisterTimePageContainer extends Component {
 		const monthEnding = moment(date).endOf('month')
 
 		const currentMonth = moment(date).month()
+		const currentYear = moment(date).year()
 
 		const monthRange = moment.range(monthStarting, monthEnding)
 		const periods = []
@@ -96,14 +97,15 @@ class RegisterTimePageContainer extends Component {
 			periods.push({
 				start: startDate,
 				end: endDate,
-				month: currentMonth + 1,
-				week: weekNumber
+				month: currentMonth,
+				week: weekNumber,
+				year: currentYear
 			})
 
 		}
 
 		const title = monthStarting.format('MMMM YYYY')
-		const shortMonthName = monthStarting.format('MMM')
+		const monthShortName = monthStarting.format('MMM')
 		const nextMonthTitle = moment(monthStarting).add(1, 'month').format('MMMM YYYY')
 		const prevMonthTitle = moment(monthStarting).subtract(1, 'month').format('MMMM YYYY')
 
@@ -112,7 +114,7 @@ class RegisterTimePageContainer extends Component {
 			title,
 			nextMonthTitle,
 			prevMonthTitle,
-			shortMonthName,
+			monthShortName,
 			periods,
 			selectedYear: date.year(),
 			selectedMonth: date.month()
@@ -142,14 +144,14 @@ class RegisterTimePageContainer extends Component {
 					</div>
 					<div />
 					<TimeCard
-						monthTitle={this.state.shortMonthName}
+						monthShortName={this.state.monthShortName}
 						periods={this.state.periods}
 						projects={this.props.projects}
 						entries={this.props.entries}
 						weeksInYear={this.state.weeksInYear}
 						selectedWeek={this.state.selectedWeek}
 						onWeekChange={this.handleOnWeekChange}
-						onNewEntryAdded={this.handleOnNewEntryAdded}
+						onNewEntryAdded={this.props.addNewEntry}
 					/>
 				</div>
 			</AuthRequiredContainer>
@@ -168,8 +170,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		loadEntries: ({ week, month, year }) =>
 			dispatch(fetchEntriesRequest({ week, month, year })),
-		addNewEntry: ({ projectId, week, month, year }) =>
-			dispatch(createEntryRequest({ projectId, week, month, year }))
+		addNewEntry: ({ projectId, week, startDay, endDay, month, year }) =>
+			dispatch(createEntryRequest({ projectId, week, startDay, endDay, month, year }))
 	}
 }
 

@@ -27,7 +27,9 @@ const fetchEntriesEpic = action$ =>
 	action$.ofType(FETCH_ENTRIES_REQUEST)
 		.mergeMap(action =>
 			timeService.getEntries({
-				weekNumber: action.weekNumber
+				week: action.week,
+				month: action.month,
+				year: action.year
 			})
 			.map(ajaxResponse => fetchEntriesSuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)
@@ -39,6 +41,8 @@ const createEntryEpic = action$ =>
 			timeService.createNewEntry({
 				projectId: action.projectId,
 				week: action.week,
+				startDay: action.startDay,
+				endDay: action.endDay,
 				year: action.year,
 				month: action.month
 			})

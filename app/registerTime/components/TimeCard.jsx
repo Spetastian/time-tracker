@@ -20,13 +20,23 @@ class TimeCard extends Component {
 	}
 
 	handleOnProjectSelected = (projectId) => {
+		const period = this.props.periods
+			.find(period => period.week === this.state.selectedWeek)
+		
+		const { start, end, month, year, week } = period
+		
 		this.props.onNewEntryAdded({
 			projectId,
-			week: this.state.selectedWeek
+			week,
+			startDay: start,
+			endDay: end,
+			month,
+			year
 		})
 	}
 
 	handleTabChange = (tabValue) => {
+		this.props.onWeekChange(tabValue)
 		this.setState({ selectedWeek: tabValue })
 	}
 
@@ -34,7 +44,10 @@ class TimeCard extends Component {
 		return this.props.entries.map(entry =>
 			<WeekEntry
 				key={entry.id}
-				projectId={entry.projectId}
+				id={entry.id}
+				projectName={entry.projectId}
+				days={entry.days}
+				monthShortName={this.props.monthShortName}
 			/>
 		)
 	}
@@ -48,7 +61,7 @@ class TimeCard extends Component {
 				{this.props.periods.map((period, i) =>
 					<Tab
 						key={i}
-						label={`${this.props.monthTitle} ${period.start}-${period.end}`}
+						label={`${this.props.monthShortName} ${period.start}-${period.end}`}
 						value={period.week}
 					/>
 			)}
