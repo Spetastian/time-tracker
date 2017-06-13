@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Switch } from 'react-router'
 import { Route, Link } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -6,16 +7,15 @@ import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import FlatButton from 'material-ui/FlatButton'
 import { ManageUsersPageContainer } from './users'
 import { ManageProjectsPageContainer } from './projects'
 import { RegisterTimePageContainer } from './registerTime'
 import { LoginPageContainer } from './login'
+import { SignOutButtonContainer } from './common/auth'
 
 import styles from './app.scss'
 
 class App extends Component {
-
 
 	constructor(props) {
 		super(props)
@@ -32,7 +32,7 @@ class App extends Component {
 						<AppBar
 							title="Time tracker POC"
 							showMenuIconButton={false}
-							iconElementRight={<FlatButton label="Sign out" />}
+							iconElementRight={<SignOutButtonContainer />}
 						/>
 					</header>
 					<div className={styles.mainWrapper}>
@@ -77,6 +77,5 @@ class App extends Component {
 	}
 
 }
-
 
 export default App

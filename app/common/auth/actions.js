@@ -25,13 +25,9 @@ export const signInFailure = error =>
 
 export const SIGN_OUT_REQUEST = 'SIGN_OUT_REQUEST'
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
-export const SIGN_OUT_FAILURE = 'SIGN_OUT_FAILURE'
 
 export const signOutRequest = () =>
     ({ type: SIGN_OUT_REQUEST })
 
 export const signOutSuccess = () =>
     ({ type: SIGN_OUT_SUCCESS })
-
-export const signOutFailure = error =>
-    ({ type: SIGN_OUT_FAILURE, error })

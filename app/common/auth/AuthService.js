@@ -16,8 +16,8 @@ class ChaptersService extends BaseService {
 				.do((successResponse) => { this.setToken(successResponse.response.data.token) })
 	}
 
-	signOut() {
-		
+	signOut = () => {
+		this.deleteToken()
 	}
 }
 

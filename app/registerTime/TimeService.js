@@ -12,7 +12,7 @@ class TimeService extends BaseService {
 	}
 	
 	getEntries({ week, month, year }) {
-		return this.get('', { week, month, year })
+		return this.get('list', { week, month, year })
 	}
 	
 	createNewEntry({ projectId, week, startDay, endDay, month, year }) {

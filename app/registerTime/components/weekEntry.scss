@@ -1,10 +1,25 @@
 @import '../../_global';
 
 .container {
-    margin-top: 12px;
+	margin-right: 2%;
+	margin-bottom: 2%;
+	flex: 0 0 48%
 }
 
-.daysContainer {
-    @extend .widePadding;
-    display: flex;
+.content {
+	display: flex;
+	justify-content: space-around;
+	padding: 10px;
+}
+
+.content .nameContainer {
+	flex: 0 0 70%
+}
+
+.content .actionsContaier {
+	flex: 0 0 30%
+}
+
+.nameTextField {
+	max-width: 180px;
 }

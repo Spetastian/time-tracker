@@ -41,10 +41,20 @@ const signInRequestEpic = action$ =>
 								.flatMap(ajaxResponse => [signInSuccess(ajaxResponse.response.data), replace('/')])
 								.catch(handleAjaxError)
         )
+		
+const signOutRequestEpic = action$ =>
+    action$.ofType(SIGN_OUT_REQUEST)
+			.do(authService.signOut)
+			.mergeMap(() =>
+				authService.signOut()
+					.flatMap(ajaxResponse => [signOutSuccess(ajaxResponse.response.data), replace('/login')])
+					.catch(handleAjaxError)
+			)
 
 
 export default combineEpics(
 		authenticationVerifyEpic,
-		signInRequestEpic
+		signInRequestEpic,
+		signOutRequestEpic
 )
 

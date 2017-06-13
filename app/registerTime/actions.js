@@ -1,11 +1,11 @@
-export const FETCH_ENTRIES_CARD_REQUEST = 'FETCH_ENTRIES_CARD_REQUEST'
-export const FETCH_ENTRIES_CARD_SUCCESS = 'FETCH_ENTRIES_CARD_SUCCESS'
+export const FETCH_ENTRIES_REQUEST = 'FETCH_ENTRIES_REQUEST'
+export const FETCH_ENTRIES_SUCCESS = 'FETCH_ENTRIES_SUCCESS'
 
 export const fetchEntriesRequest = ({ week, month, year }) =>
-    ({ type: FETCH_ENTRIES_CARD_REQUEST, week, month, year })
+    ({ type: FETCH_ENTRIES_REQUEST, week, month, year })
 
 export const fetchEntriesSuccess = entries =>
-    ({ type: FETCH_ENTRIES_CARD_SUCCESS, entries })
+    ({ type: FETCH_ENTRIES_SUCCESS, entries })
     
 
 export const CREATE_ENTRY_REQUEST = 'CREATE_ENTRY_REQUEST'
