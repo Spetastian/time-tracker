@@ -6,7 +6,8 @@ const moment = extendMoment(Moment)
 import { connect } from 'react-redux'
 import {
 	fetchEntriesRequest,
-	createEntryRequest
+	createEntryRequest,
+	removeEntryRequest
 } from './actions'
 import TimeCard from './components/TimeCard'
 import FlatButton from 'material-ui/FlatButton'
@@ -152,6 +153,7 @@ class RegisterTimePageContainer extends Component {
 						selectedWeek={this.state.selectedWeek}
 						onWeekChange={this.handleOnWeekChange}
 						onNewEntryAdded={this.props.addNewEntry}
+						onEntryRemoved={this.props.removeEntry}
 					/>
 				</div>
 			</AuthRequiredContainer>
@@ -162,7 +164,6 @@ class RegisterTimePageContainer extends Component {
 const mapStateToProps = (state) => {
 	const { entries, loading } = state.registerTime
 	const { projects } = state.auth
-	console.log('state projects', projects)
 	return { projects, entries, loading }
 }
 
@@ -171,7 +172,9 @@ const mapDispatchToProps = (dispatch) => {
 		loadEntries: ({ week, month, year }) =>
 			dispatch(fetchEntriesRequest({ week, month, year })),
 		addNewEntry: ({ projectId, week, startDay, endDay, month, year }) =>
-			dispatch(createEntryRequest({ projectId, week, startDay, endDay, month, year }))
+			dispatch(createEntryRequest({ projectId, week, startDay, endDay, month, year })),
+		removeEntry: ({ id, week, month, year }) => 
+			dispatch(removeEntryRequest({ id, week, month, year }))
 	}
 }
 

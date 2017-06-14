@@ -14,6 +14,7 @@ class SignOutButtonContainer extends Component {
 	
 
 	render() {
+		console.log('SignOut props', this.props)
 		return this.props.authenticated ? this.renderSignOutButton() : null
 	}
 }

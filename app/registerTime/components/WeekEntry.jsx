@@ -37,7 +37,7 @@ class WeekEntry extends Component {
 	}
 
 	handleConfirmRemove = () => {
-		// this.props.onRemove(this.props.id)
+		this.props.onEntryRemoved(this.props.id)
 	}
 
 	handleCancelRemove = () => {

@@ -1,7 +1,8 @@
 import {
     SIGN_IN_REQUEST,
     SIGN_IN_SUCCESS,
-		VERIFY_AUTHENTICATION_SUCCESS
+		VERIFY_AUTHENTICATION_SUCCESS,
+		VERIFY_AUTHENTICATION_FAILURE
 } from './actions'
 
 const initialState = {
@@ -36,6 +37,12 @@ export default function campaignReducer(state = initialState, action) {
 			return Object.assign({}, state, {
 				loading: false,
 				authenticated: true
+			})
+
+		case VERIFY_AUTHENTICATION_FAILURE:
+			return Object.assign({}, state, {
+				loading: false,
+				authenticated: false
 			})
 			
 		default:

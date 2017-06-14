@@ -5,12 +5,19 @@ const moment = extendMoment(Moment)
 
 class TimeService extends BaseService {
 	
-	async getEntries(ctx) {
-		const { userId } = ctx.state
-		const { week, month, year } = ctx.request.body
+	async fetchEntriesFromDb({ userId, week, month, year }){
 
 		const entries = await this.db.TimeEntry
-			.find({ _user: userId, removed: false, week, year, month }, '_id _projectId week year month days')
+			.find({ _user: userId, week, year, month, removed: false }, '_id _projectId week year month days')
+
+		return entries
+	}
+
+	async getEntries(ctx) {
+		const { userId } = ctx.state
+		const { week, month, year } = ctx.request.query
+
+		const entries = await this.fetchEntriesFromDb({ userId, week, month, year })
 
 		ctx.body = this.success({ entries })
 	}
@@ -24,7 +31,6 @@ class TimeService extends BaseService {
 			await project.save()
 		}
 		else {
-			console.log({ startDay, endDay })
 			const periodStart = moment({ year, month, day: startDay })
 			const periodEnd = moment({ year, month, day: endDay })
 
@@ -37,24 +43,25 @@ class TimeService extends BaseService {
 					amount: 0
 				})
 			}
-
-			console.log(days)
 			await this.db.TimeEntry.create({ _user: userId, _project: projectId, days, week, year, month })
 		}
-		
-		await this.getEntries(ctx)
+
+		const entries = await this.fetchEntriesFromDb({ userId, week, month, year })
+
+		ctx.body = this.success({ entries })
 	}
 
 	async removeEntry(ctx) {
 		const { userId } = ctx.state
-		const { id } = ctx.request.body
+		const { id, week, month, year } = ctx.request.body
+
 		if (id) {
-			const project = await this.db.TimeEntry.findOne({ _id: id, _user: userId, removed: false })
-			project.removed = true
-			await project.save()
+			const entry = await this.db.TimeEntry.remove({ _id: id, _user: userId })
 		}
 
-		await this.getEntries(ctx)
+		const entries = await this.fetchEntriesFromDb({ userId, week, month, year })
+
+		ctx.body = this.success({ entries })
 	}
 
 	setupRoutes(router) {

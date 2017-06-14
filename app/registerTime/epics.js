@@ -55,7 +55,9 @@ const saveEntryEpic = action$ =>
 		.mergeMap(action =>
 			timeService.saveEntry({
 				id: action.id,
-				weekNumber: action.weekNumber
+				week: action.week,
+				month: action.month,
+				year: action.year
 			})
 			.map(ajaxResponse => saveEntrySuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)
@@ -64,9 +66,11 @@ const saveEntryEpic = action$ =>
 const removeEntryEpic = action$ =>
 	action$.ofType(REMOVE_ENTRY_REQUEST)
 		.mergeMap(action =>
-			timeService.saveEntry({
+			timeService.removeEntry({
 				id: action.id,
-				weekNumber: action.weekNumber
+				week: action.week,
+				month: action.month,
+				year: action.year
 			})
 			.map(ajaxResponse => removeEntrySuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)

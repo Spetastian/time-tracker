@@ -12,19 +12,21 @@ class TimeService extends BaseService {
 	}
 	
 	getEntries({ week, month, year }) {
-		return this.get('list', { week, month, year })
+		console.log('timeService', { week, month, year })
+		return this.get(`list?week=${week}&month=${month}&year=${year}`)
 	}
 	
 	createNewEntry({ projectId, week, startDay, endDay, month, year }) {
 		return this.post('', { projectId, week, startDay, endDay, month, year })
 	}
 	
-	saveEntry({ id }) {
-		return this.post('', { id })
+	saveEntry({ id, week, month, year }) {
+		return this.post('', { id, week, month, year })
 	}
 	
-	removeEntry({ id, week }) {
-		return this.delete(week, { id })
+	removeEntry({ id, week, month, year }) {
+		console.log('timeService', { id, week, month, year })
+		return this.delete('', { id, week, month, year })
 	}
 	
 }

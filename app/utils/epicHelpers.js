@@ -1,4 +1,5 @@
 import { requestError } from '../common/errors'
+import { verifyAuthenticationFailure } from '../common/auth'
 import { replace } from 'react-router-redux'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/of'
@@ -11,5 +12,5 @@ export const handleAjaxError = (ajaxError) => {
 		return Observable.of(replace('/login'))
 
 	const { message, request: { url } } = ajaxError
-	return Observable.of(requestError({ message, url }))
+	return Observable.from([requestError({ message, url }), verifyAuthenticationFailure()])
 }

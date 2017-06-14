@@ -1,12 +1,16 @@
 
 export const VERIFY_AUTHENTICATION = 'VERIFY_AUTHENTICATION'
 export const VERIFY_AUTHENTICATION_SUCCESS = 'VERIFY_AUTHENTICATION_SUCCESS'
+export const VERIFY_AUTHENTICATION_FAILURE = 'VERIFY_AUTHENTICATION_FAILURE'
 
 export const verifyAuthentication = () =>
     ({ type: VERIFY_AUTHENTICATION })
 
 export const verifyAuthenticationSuccess = () =>
     ({ type: VERIFY_AUTHENTICATION_SUCCESS })
+
+export const verifyAuthenticationFailure = () =>
+    ({ type: VERIFY_AUTHENTICATION_FAILURE })
 
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'

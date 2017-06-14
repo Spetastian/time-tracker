@@ -40,14 +40,23 @@ class TimeCard extends Component {
 		this.setState({ selectedWeek: tabValue })
 	}
 
+	handleEntryRemoved = (id) => {
+		const period = this.props.periods
+			.find(period => period.week === this.state.selectedWeek)
+		
+		const { month, year, week } = period
+		this.props.onEntryRemoved({ id, month, year, week })
+	}
+
 	renderEntries() {
 		return this.props.entries.map(entry =>
 			<WeekEntry
-				key={entry.id}
-				id={entry.id}
+				key={entry._id}
+				id={entry._id}
 				projectName={entry.projectId}
 				days={entry.days}
 				monthShortName={this.props.monthShortName}
+				onEntryRemoved={this.handleEntryRemoved}
 			/>
 		)
 	}

@@ -78,8 +78,8 @@ class BaseService {
 		return Observable.throw(err)
 	}
 
-	get(action) {
-		return ajax(this.getAjaxGetSettings(action))
+	get(action, data) {
+		return ajax(this.getAjaxGetSettings(action, data))
 			.catch(this.checkErrorFor401)
 	}
 

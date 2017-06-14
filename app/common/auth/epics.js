@@ -2,8 +2,9 @@ import { handleAjaxError } from '../../utils/epicHelpers'
 import {
     SIGN_IN_REQUEST,
     SIGN_OUT_REQUEST,
-		VERIFY_AUTHENTICATION,
-		verifyAuthenticationSuccess,
+	VERIFY_AUTHENTICATION,
+	verifyAuthenticationSuccess,
+	verifyAuthenticationFailure,
     signInSuccess,
     signOutSuccess
 } from './actions'
@@ -18,6 +19,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/observable/of'
+import 'rxjs/add/observable/from'
 
 import AuthService from './AuthService'
 
@@ -29,8 +31,7 @@ const authenticationVerifyEpic = action$ =>
 				authService.verifyToken()
 					.map(() => verifyAuthenticationSuccess())
 					.catch((err) => {
-						console.error('Error when authenticating token', err)
-						return Observable.of(replace('/login'))
+						return Observable.from([replace('/login'), verifyAuthenticationFailure()])
 					})
 				)
 		
@@ -38,19 +39,15 @@ const signInRequestEpic = action$ =>
     action$.ofType(SIGN_IN_REQUEST)
         .mergeMap(action =>
             authService.signIn({ username: action.username, password: action.password })
-								.flatMap(ajaxResponse => [signInSuccess(ajaxResponse.response.data), replace('/')])
-								.catch(handleAjaxError)
+				.flatMap(ajaxResponse => [signInSuccess(ajaxResponse.response.data), replace('/')])
+				.catch(handleAjaxError)
         )
 		
 const signOutRequestEpic = action$ =>
     action$.ofType(SIGN_OUT_REQUEST)
-			.do(authService.signOut)
-			.mergeMap(() =>
-				authService.signOut()
-					.flatMap(ajaxResponse => [signOutSuccess(ajaxResponse.response.data), replace('/login')])
-					.catch(handleAjaxError)
-			)
-
+		.do(authService.signOut)
+		.flatMap(ajaxResponse => [signOutSuccess(), replace('/login')])
+		.catch(console.error)
 
 export default combineEpics(
 		authenticationVerifyEpic,
