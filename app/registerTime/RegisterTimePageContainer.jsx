@@ -95,12 +95,23 @@ class RegisterTimePageContainer extends Component {
 			const endDate = endOfWeek.date()
 			const weekNumber = startOfWeek.week()
 
+			const weekRange = moment.range(startOfWeek, endOfWeek)
+			const days = []
+
+			for (const date of weekRange.by('day')) {
+				days.push({
+					dayOfMonth: date.date(),
+					amount: 0
+				})
+			}
+
 			periods.push({
 				start: startDate,
 				end: endDate,
 				month: currentMonth,
 				week: weekNumber,
-				year: currentYear
+				year: currentYear,
+				days
 			})
 
 		}
@@ -151,6 +162,7 @@ class RegisterTimePageContainer extends Component {
 						entries={this.props.entries}
 						weeksInYear={this.state.weeksInYear}
 						selectedWeek={this.state.selectedWeek}
+						days={this.state.days}
 						onWeekChange={this.handleOnWeekChange}
 						onNewEntryAdded={this.props.addNewEntry}
 						onEntryRemoved={this.props.removeEntry}

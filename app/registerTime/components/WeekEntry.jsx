@@ -96,7 +96,7 @@ class WeekEntry extends Component {
 	renderItem = () =>
 		<div className={styles.content}>
 			<div className={styles.nameContainer}>
-				{this.state.editMode ? this.renderDays() : this.renderDays()}
+				{this.state.editMode ? this.renderEditForm() : this.renderStatic()}
 			</div>
 			<div className={styles.actionsContaier}>
 				{this.renderEditButton()}
@@ -104,7 +104,7 @@ class WeekEntry extends Component {
 			</div>
 		</div>
 
-	renderDays() {
+	renderEditForm() {
 		return this.props.days.map(day =>
 			<TextField
 				key={day.dayOfMonth}
@@ -114,6 +114,7 @@ class WeekEntry extends Component {
 			/>
 		)
 	}
+	
 	render = () =>
 		<Paper className={styles.container}>
 			{this.state.removeMode ? this.renderRemoveConfirm() : this.renderItem()}

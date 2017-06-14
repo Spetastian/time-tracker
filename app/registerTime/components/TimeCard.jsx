@@ -5,6 +5,7 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-
 import { Tabs, Tab } from 'material-ui/Tabs'
 import WeekEntry from './WeekEntry'
 import ProjectSelector from './ProjectSelector'
+import EntryForm from './EntryForm'
 import styles from './timeCard.scss'
 import moment from 'moment'
 
@@ -15,7 +16,8 @@ class TimeCard extends Component {
 		this.startOfWeek = moment().startOf('isoweek')
 		this.endOfWeek = moment().endOf('isoweek')
 		this.state = {
-			selectedWeek: this.props.periods[0].week
+			selectedWeek: this.props.periods[0].week,
+			days: this.props.periods[0].days
 		}
 	}
 
@@ -36,8 +38,13 @@ class TimeCard extends Component {
 	}
 
 	handleTabChange = (tabValue) => {
+		const period = this.props.periods
+			.find(period => period.week === this.state.selectedWeek)
 		this.props.onWeekChange(tabValue)
-		this.setState({ selectedWeek: tabValue })
+		this.setState({ 
+			selectedWeek: tabValue,
+			days: period.days
+		 })
 	}
 
 	handleEntryRemoved = (id) => {
@@ -110,6 +117,10 @@ class TimeCard extends Component {
 						/>
 					</ToolbarGroup>
 				</Toolbar>
+				<EntryForm 
+					monthShortName={this.props.monthShortName}
+					days={this.state.days} 
+					projects={this.props.projects} />
 				{this.renderEntries()}
 			</div>
 		)
