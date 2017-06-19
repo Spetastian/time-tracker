@@ -37,6 +37,10 @@ class TimeCard extends Component {
 		})
 	}
 
+	handleOnEntrySubmited = ({ selectedProject, values }) => {
+		console.log({ selectedProject, values })
+	}
+
 	handleTabChange = (tabValue) => {
 		const period = this.props.periods
 			.find(period => period.week === this.state.selectedWeek)
@@ -118,6 +122,7 @@ class TimeCard extends Component {
 					</ToolbarGroup>
 				</Toolbar>
 				<EntryForm 
+					onSubmit={this.handleOnEntrySubmited}
 					monthShortName={this.props.monthShortName}
 					days={this.state.days} 
 					projects={this.props.projects} />
