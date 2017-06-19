@@ -16,8 +16,8 @@ class TimeService extends BaseService {
 		return this.get(`list?week=${week}&month=${month}&year=${year}`)
 	}
 	
-	createNewEntry({ projectId, week, startDay, endDay, month, year }) {
-		return this.post('', { projectId, week, startDay, endDay, month, year })
+	createNewEntry({ projectId, week, values, month, year }) {
+		return this.post('', { projectId, week, values, month, year })
 	}
 	
 	saveEntry({ id, week, month, year }) {

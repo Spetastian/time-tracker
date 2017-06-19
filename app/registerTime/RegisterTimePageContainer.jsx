@@ -38,16 +38,16 @@ class RegisterTimePageContainer extends Component {
 			selectedWeek: week
 		})
 
-		console.log({ 
+		console.log({
 			week,
 			month: this.state.selectedMonth,
-			year: this.state.selectedYear 
+			year: this.state.selectedYear
 		})
 
-		this.props.loadEntries({ 
+		this.props.loadEntries({
 			week,
 			month: this.state.selectedMonth,
-			year: this.state.selectedYear 
+			year: this.state.selectedYear
 		})
 	}
 
@@ -183,9 +183,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		loadEntries: ({ week, month, year }) =>
 			dispatch(fetchEntriesRequest({ week, month, year })),
-		addNewEntry: ({ projectId, week, startDay, endDay, month, year }) =>
-			dispatch(createEntryRequest({ projectId, week, startDay, endDay, month, year })),
-		removeEntry: ({ id, week, month, year }) => 
+		addNewEntry: ({ projectId, week, values, month, year }) =>
+			dispatch(createEntryRequest({ projectId, week, values, month, year })),
+		removeEntry: ({ id, week, month, year }) =>
 			dispatch(removeEntryRequest({ id, week, month, year }))
 	}
 }

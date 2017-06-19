@@ -114,6 +114,17 @@ class WeekEntry extends Component {
 			/>
 		)
 	}
+
+	renderStatic() {
+		return this.props.days.map(day =>
+			<TextField
+				key={day.dayOfMonth}
+				value={day.amount}
+				floatingLabelFixed
+				floatingLabelText={`${this.props.monthShortName} ${day.dayOfMonth}`}
+			/>
+		)
+	}
 	
 	render = () =>
 		<Paper className={styles.container}>

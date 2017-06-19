@@ -1,10 +1,8 @@
 export const FETCH_ENTRIES_REQUEST = 'FETCH_ENTRIES_REQUEST'
 export const FETCH_ENTRIES_SUCCESS = 'FETCH_ENTRIES_SUCCESS'
 
-export const fetchEntriesRequest = ({ week, month, year }) =>{
-    console.log('action', { week, month, year })
-    return { type: FETCH_ENTRIES_REQUEST, week, month, year }
-}
+export const fetchEntriesRequest = ({ week, month, year }) =>
+	({ type: FETCH_ENTRIES_REQUEST, week, month, year })
 
 export const fetchEntriesSuccess = entries =>
     ({ type: FETCH_ENTRIES_SUCCESS, entries })
@@ -13,8 +11,8 @@ export const fetchEntriesSuccess = entries =>
 export const CREATE_ENTRY_REQUEST = 'CREATE_ENTRY_REQUEST'
 export const CREATE_ENTRY_SUCCESS = 'CREATE_ENTRY_SUCCESS'
 
-export const createEntryRequest = ({ projectId, week, startDay, endDay, month, year }) =>
-    ({ type: CREATE_ENTRY_REQUEST, projectId, week, startDay, endDay, month, year })
+export const createEntryRequest = ({ projectId, week, values, month, year }) =>
+    ({ type: CREATE_ENTRY_REQUEST, projectId, week, values, month, year })
 
 export const createEntrySuccess = entries =>
     ({ type: CREATE_ENTRY_SUCCESS, entries })

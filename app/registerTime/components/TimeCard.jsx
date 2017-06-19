@@ -21,31 +21,26 @@ class TimeCard extends Component {
 		}
 	}
 
-	handleOnProjectSelected = (projectId) => {
+	handleOnEntrySubmited = ({ projectId, values }) => {
 		const period = this.props.periods
 			.find(period => period.week === this.state.selectedWeek)
 		
-		const { start, end, month, year, week } = period
+		const { month, year, week } = period
 		
 		this.props.onNewEntryAdded({
 			projectId,
 			week,
-			startDay: start,
-			endDay: end,
 			month,
-			year
+			year,
+			values
 		})
-	}
-
-	handleOnEntrySubmited = ({ selectedProject, values }) => {
-		console.log({ selectedProject, values })
 	}
 
 	handleTabChange = (tabValue) => {
 		const period = this.props.periods
 			.find(period => period.week === this.state.selectedWeek)
 		this.props.onWeekChange(tabValue)
-		this.setState({ 
+		this.setState({
 			selectedWeek: tabValue,
 			days: period.days
 		 })
@@ -121,11 +116,12 @@ class TimeCard extends Component {
 						/>
 					</ToolbarGroup>
 				</Toolbar>
-				<EntryForm 
+				<EntryForm
 					onSubmit={this.handleOnEntrySubmited}
 					monthShortName={this.props.monthShortName}
-					days={this.state.days} 
-					projects={this.props.projects} />
+					days={this.state.days}
+					projects={this.props.projects}
+				/>
 				{this.renderEntries()}
 			</div>
 		)

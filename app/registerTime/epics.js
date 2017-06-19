@@ -41,8 +41,7 @@ const createEntryEpic = action$ =>
 			timeService.createNewEntry({
 				projectId: action.projectId,
 				week: action.week,
-				startDay: action.startDay,
-				endDay: action.endDay,
+				values: action.values,
 				year: action.year,
 				month: action.month
 			})
