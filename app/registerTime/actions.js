@@ -21,8 +21,8 @@ export const createEntrySuccess = entries =>
 export const SAVE_ENTRY_REQUEST = 'SAVE_ENTRY_REQUEST'
 export const SAVE_ENTRY_SUCCESS = 'SAVE_ENTRY_SUCCESS'
 
-export const saveEntryRequest = ({ id, week, year, month }) =>
-    ({ type: SAVE_ENTRY_REQUEST, id, week, year, month })
+export const saveEntryRequest = ({ id, projectId, values }) =>
+    ({ type: SAVE_ENTRY_REQUEST, id, projectId, values})
 
 export const saveEntrySuccess = entries =>
     ({ type: SAVE_ENTRY_SUCCESS, entries })

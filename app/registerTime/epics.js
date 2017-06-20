@@ -54,9 +54,8 @@ const saveEntryEpic = action$ =>
 		.mergeMap(action =>
 			timeService.saveEntry({
 				id: action.id,
-				week: action.week,
-				month: action.month,
-				year: action.year
+				projectId: action.projectId,
+				values: action.values
 			})
 			.map(ajaxResponse => saveEntrySuccess(ajaxResponse.response.data.entries))
 			.catch(handleAjaxError)

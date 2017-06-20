@@ -38,7 +38,7 @@ class TimeCard extends Component {
 
 	handleTabChange = (tabValue) => {
 		const period = this.props.periods
-			.find(period => period.week === this.state.selectedWeek)
+			.find(period => period.week === tabValue)
 		this.props.onWeekChange(tabValue)
 		this.setState({
 			selectedWeek: tabValue,
@@ -63,6 +63,8 @@ class TimeCard extends Component {
 				days={entry.days}
 				monthShortName={this.props.monthShortName}
 				onEntryRemoved={this.handleEntryRemoved}
+				projects={this.props.projects}
+				onEntrySaved={this.props.onEntrySaved}
 			/>
 		)
 	}

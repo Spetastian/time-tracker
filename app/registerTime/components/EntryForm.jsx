@@ -60,7 +60,7 @@ class EntryForm extends Component {
 			<TextField
 				name={`day${day.dayOfMonth}`}
 				key={day.dayOfMonth}
-				value={this.state[day.dayOfMonth]}
+				value={this.state[`day${day.dayOfMonth}`]}
 				onChange={this.handleDayValueChange}
 				floatingLabelFixed
 				floatingLabelText={`${this.props.monthShortName} ${day.dayOfMonth}`}

@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import {
 	fetchEntriesRequest,
 	createEntryRequest,
+	saveEntryRequest,
 	removeEntryRequest
 } from './actions'
 import TimeCard from './components/TimeCard'
@@ -24,7 +25,6 @@ class RegisterTimePageContainer extends Component {
 	}
 
 	componentDidMount() {
-		const { week, year, month } = this.state
 		this.props.loadEntries({
 			week: this.state.selectedWeek,
 			month: this.state.selectedMonth,
@@ -36,12 +36,6 @@ class RegisterTimePageContainer extends Component {
 
 		this.setState({
 			selectedWeek: week
-		})
-
-		console.log({
-			week,
-			month: this.state.selectedMonth,
-			year: this.state.selectedYear
 		})
 
 		this.props.loadEntries({
@@ -165,6 +159,7 @@ class RegisterTimePageContainer extends Component {
 						days={this.state.days}
 						onWeekChange={this.handleOnWeekChange}
 						onNewEntryAdded={this.props.addNewEntry}
+						onEntrySaved={this.props.saveEntry}
 						onEntryRemoved={this.props.removeEntry}
 					/>
 				</div>
@@ -185,6 +180,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchEntriesRequest({ week, month, year })),
 		addNewEntry: ({ projectId, week, values, month, year }) =>
 			dispatch(createEntryRequest({ projectId, week, values, month, year })),
+		saveEntry: ({ id, projectId, values }) =>
+			dispatch(saveEntryRequest({ id, projectId, values })),
 		removeEntry: ({ id, week, month, year }) =>
 			dispatch(removeEntryRequest({ id, week, month, year }))
 	}

@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
 import ContentCreate from 'material-ui/svg-icons/content/create'
 import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
+import EntryForm from './EntryForm'
 import styles from './weekEntry.scss'
 
 class WeekEntry extends Component {
@@ -46,6 +47,11 @@ class WeekEntry extends Component {
 		})
 	}
 
+	handleOnEntryFormSubmited = ({ projectId, values  }) => {
+		const { id } = this.props
+		this.props.onEntrySaved({ id, projectId, values })
+	}
+
 
 	renderRemoveConfirm = () =>
 		<div className={styles.content}>
@@ -74,14 +80,7 @@ class WeekEntry extends Component {
 
 	renderEditButton = () => {
 		if (this.state.editMode)
-			return (
-				<IconButton
-					onTouchTap={this.handleEntryEditDone}
-					iconStyle={{ color: '#3c763d' }}
-				>
-					<ActionCheckCircle />
-				</IconButton>
-			)
+			return null
 
 		return (
 			<IconButton
@@ -105,24 +104,21 @@ class WeekEntry extends Component {
 		</div>
 
 	renderEditForm() {
-		return this.props.days.map(day =>
-			<TextField
-				key={day.dayOfMonth}
-				value={day.amount}
-				floatingLabelFixed
-				floatingLabelText={`${this.props.monthShortName} ${day.dayOfMonth}`}
+		return (
+			<EntryForm
+				onSubmit={this.handleOnEntryFormSubmited}
+				monthShortName={this.props.monthShortName}
+				days={this.props.days}
+				projects={this.props.projects}
 			/>
 		)
 	}
 
 	renderStatic() {
 		return this.props.days.map(day =>
-			<TextField
-				key={day.dayOfMonth}
-				value={day.amount}
-				floatingLabelFixed
-				floatingLabelText={`${this.props.monthShortName} ${day.dayOfMonth}`}
-			/>
+		<p>
+			{`${this.props.monthShortName} ${day.dayOfMonth}`}: {day.amount}
+		</p>
 		)
 	}
 	
