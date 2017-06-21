@@ -1,32 +1,29 @@
 const BaseService = require('./BaseService')
 
 class ReportService extends BaseService {
-	
-	async authenticate(ctx) {
-		const { username, password } = ctx.request.body
-		if (password === 'xxx') {
-			ctx.throw(401)
-		}
-		ctx.body = 'SUCCESS'
-	}
 
-	async authorize(ctx) {
-		// console.log(this.db)
-		const user = new this.db.User({ usernamezz: 'Whasfd', password: '12345dsd' })
-		const newUser = await user.save()
-		
-		const profile = new this.db.Profile({ _userId: newUser.id, firstname: 'first', lastname: 'last' })
-		const newProfile = await profile.save()
+	async getReports(ctx) {
+		const { companyId } = ctx.state
+		const { week, month, year } = ctx.request.query
 
-		ctx.body = newProfile
+		const reports = await this.db.TimeEntry
+			.find({
+				week, month, year
+			})
+			.populate({
+				path: '_user',
+				match: { _company: companyId },
+				select: '_id firstname lastname'
+			})
+
+		ctx.body = this.success({ reports })
 	}
 
 	setupRoutes(router) {
 		router
-			.post('/authenticate', this.authenticate.bind(this))
-			.get('/authorize', this.authorize.bind(this))
+			.get(this.getPath('/list'), this.authorize(), this.getReports.bind(this))
 	}
-	
+
 }
 
 

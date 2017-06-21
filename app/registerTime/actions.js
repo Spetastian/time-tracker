@@ -2,11 +2,11 @@ export const FETCH_ENTRIES_REQUEST = 'FETCH_ENTRIES_REQUEST'
 export const FETCH_ENTRIES_SUCCESS = 'FETCH_ENTRIES_SUCCESS'
 
 export const fetchEntriesRequest = ({ week, month, year }) =>
-	({ type: FETCH_ENTRIES_REQUEST, week, month, year })
+    ({ type: FETCH_ENTRIES_REQUEST, week, month, year })
 
 export const fetchEntriesSuccess = entries =>
     ({ type: FETCH_ENTRIES_SUCCESS, entries })
-    
+
 
 export const CREATE_ENTRY_REQUEST = 'CREATE_ENTRY_REQUEST'
 export const CREATE_ENTRY_SUCCESS = 'CREATE_ENTRY_SUCCESS'
@@ -21,8 +21,8 @@ export const createEntrySuccess = entries =>
 export const SAVE_ENTRY_REQUEST = 'SAVE_ENTRY_REQUEST'
 export const SAVE_ENTRY_SUCCESS = 'SAVE_ENTRY_SUCCESS'
 
-export const saveEntryRequest = ({ id, projectId, values }) =>
-    ({ type: SAVE_ENTRY_REQUEST, id, projectId, values})
+export const saveEntryRequest = ({ id, projectId, values, week, month, year }) =>
+    ({ type: SAVE_ENTRY_REQUEST, id, projectId, values, week, month, year })
 
 export const saveEntrySuccess = entries =>
     ({ type: SAVE_ENTRY_SUCCESS, entries })

@@ -1,14 +1,14 @@
 import { handleAjaxError } from '../utils/epicHelpers'
 
 import {
-    FETCH_ENTRIES_REQUEST,
-    fetchEntriesSuccess,
-    CREATE_ENTRY_REQUEST,
-    createEntrySuccess,
-		SAVE_ENTRY_REQUEST,
-		saveEntrySuccess,
-		REMOVE_ENTRY_REQUEST,
-		removeEntrySuccess
+	FETCH_ENTRIES_REQUEST,
+	fetchEntriesSuccess,
+	CREATE_ENTRY_REQUEST,
+	createEntrySuccess,
+	SAVE_ENTRY_REQUEST,
+	saveEntrySuccess,
+	REMOVE_ENTRY_REQUEST,
+	removeEntrySuccess
 } from './actions'
 
 import TimeService from './TimeService'
@@ -31,8 +31,8 @@ const fetchEntriesEpic = action$ =>
 				month: action.month,
 				year: action.year
 			})
-			.map(ajaxResponse => fetchEntriesSuccess(ajaxResponse.response.data.entries))
-			.catch(handleAjaxError)
+				.map(ajaxResponse => fetchEntriesSuccess(ajaxResponse.response.data.entries))
+				.catch(handleAjaxError)
 		)
 
 const createEntryEpic = action$ =>
@@ -45,8 +45,8 @@ const createEntryEpic = action$ =>
 				year: action.year,
 				month: action.month
 			})
-			.map(ajaxResponse => createEntrySuccess(ajaxResponse.response.data.entries))
-			.catch(handleAjaxError)
+				.map(ajaxResponse => createEntrySuccess(ajaxResponse.response.data.entries))
+				.catch(handleAjaxError)
 		)
 
 const saveEntryEpic = action$ =>
@@ -55,10 +55,13 @@ const saveEntryEpic = action$ =>
 			timeService.saveEntry({
 				id: action.id,
 				projectId: action.projectId,
+				week: action.week,
+				month: action.month,
+				year: action.year,
 				values: action.values
 			})
-			.map(ajaxResponse => saveEntrySuccess(ajaxResponse.response.data.entries))
-			.catch(handleAjaxError)
+				.map(ajaxResponse => saveEntrySuccess(ajaxResponse.response.data.entries))
+				.catch(handleAjaxError)
 		)
 
 const removeEntryEpic = action$ =>
@@ -70,8 +73,8 @@ const removeEntryEpic = action$ =>
 				month: action.month,
 				year: action.year
 			})
-			.map(ajaxResponse => removeEntrySuccess(ajaxResponse.response.data.entries))
-			.catch(handleAjaxError)
+				.map(ajaxResponse => removeEntrySuccess(ajaxResponse.response.data.entries))
+				.catch(handleAjaxError)
 		)
 
 export default combineEpics(

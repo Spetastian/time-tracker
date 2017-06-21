@@ -10,9 +10,16 @@ import EntryForm from './EntryForm'
 import styles from './weekEntry.scss'
 
 class WeekEntry extends Component {
-	
+
 	constructor(props) {
 		super(props)
+		this.state = {
+			editMode: false,
+			removeMode: false
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
 		this.state = {
 			editMode: false,
 			removeMode: false
@@ -47,7 +54,7 @@ class WeekEntry extends Component {
 		})
 	}
 
-	handleOnEntryFormSubmited = ({ projectId, values  }) => {
+	handleOnEntryFormSubmited = ({ projectId, values }) => {
 		const { id } = this.props
 		this.props.onEntrySaved({ id, projectId, values })
 	}
@@ -116,12 +123,12 @@ class WeekEntry extends Component {
 
 	renderStatic() {
 		return this.props.days.map(day =>
-		<p>
-			{`${this.props.monthShortName} ${day.dayOfMonth}`}: {day.amount}
-		</p>
+			<p>
+				{`${this.props.monthShortName} ${day.dayOfMonth}`}: {day.amount}
+			</p>
 		)
 	}
-	
+
 	render = () =>
 		<Paper className={styles.container}>
 			{this.state.removeMode ? this.renderRemoveConfirm() : this.renderItem()}

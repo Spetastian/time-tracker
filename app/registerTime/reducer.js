@@ -1,10 +1,12 @@
 import {
-    FETCH_ENTRIES_REQUEST,
-    FETCH_ENTRIES_SUCCESS,
-    CREATE_ENTRY_REQUEST,
-    CREATE_ENTRY_SUCCESS,
+	FETCH_ENTRIES_REQUEST,
+	FETCH_ENTRIES_SUCCESS,
+	CREATE_ENTRY_REQUEST,
+	CREATE_ENTRY_SUCCESS,
 	REMOVE_ENTRY_REQUEST,
-	REMOVE_ENTRY_SUCCESS
+	REMOVE_ENTRY_SUCCESS,
+	SAVE_ENTRY_REQUEST,
+	SAVE_ENTRY_SUCCESS
 } from './actions'
 
 
@@ -19,6 +21,7 @@ export default function campaignReducer(state = initialState, action) {
 		case FETCH_ENTRIES_REQUEST:
 		case CREATE_ENTRY_REQUEST:
 		case REMOVE_ENTRY_REQUEST:
+		case SAVE_ENTRY_REQUEST:
 			return Object.assign({}, state, {
 				loading: true
 			})
@@ -26,11 +29,12 @@ export default function campaignReducer(state = initialState, action) {
 		case FETCH_ENTRIES_SUCCESS:
 		case CREATE_ENTRY_SUCCESS:
 		case REMOVE_ENTRY_SUCCESS:
+		case SAVE_ENTRY_SUCCESS:
 			return Object.assign({}, state, {
 				loading: false,
 				entries: action.entries
 			})
-        
+
 		default:
 			return state
 	}

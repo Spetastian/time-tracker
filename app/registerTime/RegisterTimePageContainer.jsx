@@ -18,7 +18,7 @@ import { AuthRequiredContainer } from '../common/auth'
 import styles from './registerTimePageContainer.scss'
 
 class RegisterTimePageContainer extends Component {
-    
+
 	constructor(props) {
 		super(props)
 		this.state = this.updateDateInfo(moment())
@@ -50,7 +50,7 @@ class RegisterTimePageContainer extends Component {
 			year: this.state.selectedYear,
 			month: this.state.selectedMonth
 		}).subtract(1, 'month')
-		
+
 		this.setState(this.updateDateInfo(prevMonth))
 	}
 
@@ -180,8 +180,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchEntriesRequest({ week, month, year })),
 		addNewEntry: ({ projectId, week, values, month, year }) =>
 			dispatch(createEntryRequest({ projectId, week, values, month, year })),
-		saveEntry: ({ id, projectId, values }) =>
-			dispatch(saveEntryRequest({ id, projectId, values })),
+		saveEntry: ({ id, projectId, values, week, month, year }) =>
+			dispatch(saveEntryRequest({ id, projectId, values, week, month, year })),
 		removeEntry: ({ id, week, month, year }) =>
 			dispatch(removeEntryRequest({ id, week, month, year }))
 	}
@@ -189,6 +189,6 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(RegisterTimePageContainer)

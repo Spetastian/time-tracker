@@ -51,7 +51,7 @@ class EntryForm extends Component {
 					value={project._id}
 					primaryText={project.name}
 				/>
-            )}
+			)}
 		</DropDownMenu>
 	}
 

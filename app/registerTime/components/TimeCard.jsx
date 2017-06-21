@@ -15,18 +15,27 @@ class TimeCard extends Component {
 		super(props)
 		this.startOfWeek = moment().startOf('isoweek')
 		this.endOfWeek = moment().endOf('isoweek')
-		this.state = {
-			selectedWeek: this.props.periods[0].week,
-			days: this.props.periods[0].days
-		}
+		const { month, year, week, days } = this.props.periods[0]
+		this.state = { month, year, week, days }
+	}
+
+	handleTabChange = (tabValue) => {
+		const period = this.props.periods
+			.find(period => period.week === tabValue)
+		const { week, month, year, days } = period
+
+		this.props.onWeekChange(tabValue)
+		this.setState({
+			week,
+			month,
+			year,
+			days
+		})
 	}
 
 	handleOnEntrySubmited = ({ projectId, values }) => {
-		const period = this.props.periods
-			.find(period => period.week === this.state.selectedWeek)
-		
-		const { month, year, week } = period
-		
+		const { month, year, week } = this.state
+
 		this.props.onNewEntryAdded({
 			projectId,
 			week,
@@ -36,22 +45,23 @@ class TimeCard extends Component {
 		})
 	}
 
-	handleTabChange = (tabValue) => {
-		const period = this.props.periods
-			.find(period => period.week === tabValue)
-		this.props.onWeekChange(tabValue)
-		this.setState({
-			selectedWeek: tabValue,
-			days: period.days
-		 })
+	handleEntryRemoved = (id) => {
+		const { month, year, week } = this.state
+		this.props.onEntryRemoved({ id, month, year, week })
 	}
 
-	handleEntryRemoved = (id) => {
-		const period = this.props.periods
-			.find(period => period.week === this.state.selectedWeek)
-		
-		const { month, year, week } = period
-		this.props.onEntryRemoved({ id, month, year, week })
+	handleEntrySaved = ({ id, projectId, values }) => {
+		const { month, year, week } = this.state
+
+		this.props.onEntrySaved({
+			id,
+			projectId,
+			week,
+			month,
+			year,
+			values
+		})
+
 	}
 
 	renderEntries() {
@@ -64,7 +74,7 @@ class TimeCard extends Component {
 				monthShortName={this.props.monthShortName}
 				onEntryRemoved={this.handleEntryRemoved}
 				projects={this.props.projects}
-				onEntrySaved={this.props.onEntrySaved}
+				onEntrySaved={this.handleEntrySaved}
 			/>
 		)
 	}
@@ -72,7 +82,7 @@ class TimeCard extends Component {
 	renderTabs() {
 		return (
 			<Tabs
-				value={this.state.selectedWeek}
+				value={this.state.week}
 				onChange={this.handleTabChange}
 			>
 				{this.props.periods.map((period, i) =>
@@ -81,7 +91,7 @@ class TimeCard extends Component {
 						label={`${this.props.monthShortName} ${period.start}-${period.end}`}
 						value={period.week}
 					/>
-			)}
+				)}
 			</Tabs>
 		)
 	}

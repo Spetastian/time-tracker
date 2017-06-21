@@ -10,23 +10,23 @@ class TimeService extends BaseService {
 	constructor() {
 		super('time')
 	}
-	
+
 	getEntries({ week, month, year }) {
 		return this.get(`list?week=${week}&month=${month}&year=${year}`)
 	}
-	
+
 	createNewEntry({ projectId, week, values, month, year }) {
 		return this.post('', { projectId, week, values, month, year })
 	}
-	
-	saveEntry({ id, projectId, values }) {
-		return this.post('', { id, projectId, values })
+
+	saveEntry({ id, projectId, values, week, month, year }) {
+		return this.post('', { id, projectId, values, week, month, year })
 	}
-	
+
 	removeEntry({ id, week, month, year }) {
 		return this.delete('', { id, week, month, year })
 	}
-	
+
 }
 
 export default TimeService
